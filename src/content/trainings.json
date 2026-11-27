@@ -4,35 +4,96 @@
     "order": 1,
     "level": 1,
     "title": "IA Essentiels",
-    "verb": "Découvrir",
-    "audience": "Toute personne qui débute avec l’IA générative",
-    "prerequisites": "Aucun",
-    "summary": "Découvrir les possibilités de l’IA générative, apprendre à formuler des demandes pertinentes et utiliser les outils avec discernement.",
-    "examples": ["Reformuler un e-mail délicat", "Résumer un long document", "Trouver des idées pour lancer un projet"],
-    "skills": ["Comprendre ce que l’IA générative fait bien, et moins bien", "Formuler une demande claire, puis l’affiner", "Vérifier une réponse avant de l’utiliser"]
+    "tagline": "Comprendre l’IA générative et acquérir les bons réflexes dès le départ.",
+    "audience": "Débutants, particuliers et professionnels souhaitant découvrir l’intelligence artificielle.",
+    "prerequisites": "Aucun.",
+    "description": [
+      "Cette formation permet de comprendre les principes de l’IA générative, d’identifier ses possibilités et ses limites, et d’apprendre à utiliser les assistants IA de manière pertinente, autonome et responsable.",
+      "L’objectif n’est pas simplement de découvrir un outil, mais d’acquérir une méthode pour obtenir des réponses utiles, les améliorer et en évaluer la fiabilité."
+    ],
+    "program": [
+      "Comprendre le fonctionnement général de l’IA générative et ses principales limites.",
+      "Découvrir les grandes familles d’outils et leurs usages.",
+      "Apprendre à formuler une demande structurée : contexte, objectif, consignes et format attendu.",
+      "Améliorer un résultat grâce à des échanges successifs avec l’IA.",
+      "Identifier les risques liés aux erreurs, aux données sensibles et à la confidentialité."
+    ],
+    "applications": [
+      "Rédiger ou reformuler un e-mail professionnel.",
+      "Résumer et expliquer un document complexe.",
+      "Préparer un plan, structurer des idées ou lancer un projet."
+    ],
+    "skills": [
+      "Identifier les situations dans lesquelles l’IA peut vous être utile.",
+      "Formuler des instructions efficaces et réutilisables.",
+      "Évaluer les réponses obtenues et les utiliser avec discernement."
+    ]
   },
   {
     "id": "ia-au-travail",
     "order": 2,
     "level": 2,
     "title": "IA au travail",
-    "verb": "Appliquer",
-    "audience": "Professionnels qui veulent gagner du temps sur leurs tâches",
-    "prerequisites": "Avoir déjà testé un outil d’IA",
-    "summary": "Intégrer l’IA dans les tâches professionnelles : rédaction, synthèse, réunions, documents et organisation.",
-    "examples": ["Préparer une réunion et en rédiger le compte rendu", "Synthétiser plusieurs documents en une note", "Structurer une présentation"],
-    "skills": ["Repérer les tâches où l’IA fait vraiment gagner du temps", "Construire des demandes réutilisables pour son métier", "Garder la maîtrise de la qualité et de la confidentialité"]
+    "tagline": "Intégrer l’intelligence artificielle dans ses activités professionnelles pour gagner en efficacité.",
+    "audience": "Professionnels et indépendants ayant déjà découvert les outils d’IA générative et souhaitant les utiliser plus régulièrement.",
+    "prerequisites": "Avoir déjà utilisé au moins un assistant IA.",
+    "description": [
+      "Cette formation est centrée sur l’application de l’IA aux situations de travail réelles.",
+      "L’objectif est d’aller au-delà des usages ponctuels pour intégrer les assistants IA dans ses méthodes de travail, améliorer la qualité de ses productions et gagner du temps sur les tâches à faible valeur ajoutée.",
+      "Les exercices s’appuient sur des cas professionnels afin que chaque participant puisse identifier des usages directement transposables à sa fonction."
+    ],
+    "program": [
+      "Identifier les tâches professionnelles pouvant bénéficier de l’IA.",
+      "Choisir l’outil et l’approche adaptés à chaque besoin.",
+      "Structurer des instructions réutilisables et adaptées à son métier.",
+      "Exploiter l’IA pour rédiger, analyser, synthétiser et organiser l’information.",
+      "Préparer des réunions, comptes rendus, présentations et documents professionnels.",
+      "Intégrer des étapes de vérification et respecter les règles de confidentialité."
+    ],
+    "applications": [
+      "Transformer des notes de réunion en compte rendu et plan d’actions.",
+      "Synthétiser plusieurs documents en une note structurée.",
+      "Préparer une présentation ou organiser un projet.",
+      "Concevoir une bibliothèque de consignes réutilisables."
+    ],
+    "skills": [
+      "Identifier les usages IA les plus pertinents pour votre activité.",
+      "Intégrer l’IA dans plusieurs tâches récurrentes.",
+      "Construire une méthode de travail plus efficace sans perdre la maîtrise des résultats."
+    ]
   },
   {
     "id": "ia-professionnelle",
     "order": 3,
     "level": 3,
     "title": "IA professionnelle",
-    "verb": "Structurer",
-    "audience": "Utilisateurs réguliers qui veulent aller plus loin",
-    "prerequisites": "Usage régulier de l’IA",
-    "summary": "Approfondir les usages : analyse de fichiers, recherche avancée, gestion du contexte, workflows et automatisations simples.",
-    "examples": ["Analyser un fichier et en tirer les points clés", "Mener une recherche approfondie et sourcée", "Automatiser une tâche répétitive simple"],
-    "skills": ["Organiser ses projets et leur contexte dans les outils", "Enchaîner plusieurs étapes dans un workflow", "Choisir l’outil adapté à chaque besoin"]
+    "tagline": "Structurer des usages avancés de l’IA et concevoir des processus de travail plus intelligents.",
+    "audience": "Professionnels utilisant régulièrement l’IA et souhaitant approfondir leurs pratiques.",
+    "prerequisites": "Utilisation régulière de l’IA générative et maîtrise des fonctions de base.",
+    "description": [
+      "Cette formation s’adresse aux personnes qui souhaitent dépasser l’utilisation conversationnelle classique de l’IA pour l’intégrer dans des démarches plus complexes : gestion de projets, traitement documentaire, recherche approfondie et automatisation de tâches.",
+      "L’approche combine méthodologie, manipulation d’outils et mise en pratique sur des situations professionnelles."
+    ],
+    "program": [
+      "Organiser ses projets, ses documents et le contexte fourni aux assistants IA.",
+      "Utiliser des techniques avancées pour structurer les demandes et les résultats.",
+      "Analyser des fichiers et exploiter des données avec l’appui de l’IA.",
+      "Réaliser des recherches approfondies, documentées et vérifiables.",
+      "Découvrir les principes des workflows, des agents IA et des automatisations.",
+      "Concevoir un processus simple combinant plusieurs étapes ou outils.",
+      "Identifier les limites techniques, les risques et les contrôles nécessaires."
+    ],
+    "applications": [
+      "Analyser un ensemble de documents et produire une synthèse décisionnelle.",
+      "Construire un espace de travail IA dédié à un projet.",
+      "Structurer un processus de veille ou de reporting.",
+      "Concevoir un premier workflow pour réduire une tâche répétitive."
+    ],
+    "skills": [
+      "Structurer des usages IA adaptés à des besoins professionnels complexes.",
+      "Combiner différentes fonctionnalités ou catégories d’outils.",
+      "Concevoir et tester un processus simple d’assistance ou d’automatisation.",
+      "Évaluer les résultats, les risques et les limites de son utilisation."
+    ]
   }
 ]

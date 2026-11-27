@@ -22,8 +22,8 @@ const questions = [
 const results = trainings.map(({ id, data }) => ({
   id,
   title: data.title,
-  summary: data.summary,
-  meta: `Pour : ${data.audience.charAt(0).toLowerCase()}${data.audience.slice(1)}. Prérequis : ${data.prerequisites.charAt(0).toLowerCase()}${data.prerequisites.slice(1)}.`,
+  summary: data.tagline,
+  meta: `Prérequis : ${data.prerequisites.charAt(0).toLowerCase()}${data.prerequisites.slice(1)}`,
   mail: contactHref(undefined, 'ia'),
 }));
 ---

@@ -44,8 +44,8 @@ const formats = ['Présentiel', 'À distance', 'Intra-entreprise', 'Sur mesure']
       <tbody>
         {trainings.map(({ data }) => (
           <tr>
-            <td><b>{data.title}</b><small>{data.verb}</small></td>
-            <td>{data.summary}</td>
+            <td><b>{data.title}</b></td>
+            <td>{data.tagline}</td>
             <td>{data.audience}</td>
             <td>{data.prerequisites}</td>
           </tr>

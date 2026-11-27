@@ -1,12 +1,10 @@
 ---
-// Accueil : les trois domaines de The Next Move, en une phrase chacun.
-import { contactHref } from '../lib/contact';
-
+// Accueil : les trois domaines d'accompagnement de The Next Move.
 const axes = [
-  { title: 'Orientation & évolution professionnelle', text: 'Construire votre parcours et prendre les bonnes décisions, au début de votre carrière comme au moment d’en changer.', request: 'orientation' },
-  { title: 'Organisation & méthodes de travail', text: 'Structurer vos priorités, améliorer vos pratiques et gagner en efficacité, seul ou en équipe.', request: 'organisation' },
-  { title: 'Intelligence artificielle & formation', text: 'Comprendre, choisir et utiliser les outils d’IA dans des situations concrètes de travail.', request: 'ia' },
-] as const;
+  { title: 'Orientation & évolution professionnelle', text: 'Clarifier ses choix, construire son projet et préparer les prochaines étapes de son parcours.' },
+  { title: 'Organisation & méthodes de travail', text: 'Mieux définir ses priorités, structurer son activité et adopter des pratiques plus efficaces.' },
+  { title: 'Intelligence artificielle & formation', text: 'Comprendre les possibilités de l’IA, choisir les outils pertinents et apprendre à les utiliser dans des situations réelles.' },
+];
 ---
 <section class="axes">
   <div class="wrap grid">
@@ -15,7 +13,7 @@ const axes = [
       {axes.map((a) => (
         <li>
           <h3>{a.title}</h3>
-          <p>{a.text} <a href={contactHref(undefined, a.request)}>En parler</a></p>
+          <p>{a.text}</p>
         </li>
       ))}
     </ul>
@@ -27,11 +25,11 @@ const axes = [
   .grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
   ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 56px; }
   h3 { font-size: var(--t-2); margin-bottom: 10px; }
-  li p { max-width: 52ch; margin: 0; }
-  li a { color: var(--olive); font-weight: 600; text-underline-offset: 3px; white-space: nowrap; }
+  li p { max-width: 52ch; margin: 0; font-size: var(--t-3); line-height: 1.5; }
   @media (max-width: 1020px) {
     .axes { padding: 96px 0; }
     .grid { grid-template-columns: minmax(0, 1fr); }
     ul { gap: 40px; }
   }
+  @media (max-width: 640px) { li p { font-size: 17px; } }
 </style>

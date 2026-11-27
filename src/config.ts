@@ -14,10 +14,12 @@ export const SITE = {
   plausibleDomain: '',
 };
 
-// Réseaux sociaux affichés sur la page Contact et en pied de page. Ajouter LinkedIn ici quand le lien est prêt.
+// Réseaux sociaux affichés sur la page Contact et en pied de page.
+// L'ordre compte : LinkedIn (profil de Tatiana) s'affiche au-dessus d'Instagram (The Next Move).
 export const SOCIAL = [
-  { label: 'Instagram', url: 'https://www.instagram.com/__thenextmove__/' },
-];
+  { label: 'LinkedIn', icon: 'linkedin', url: 'https://www.linkedin.com/in/tatiana-rizk/' },
+  { label: 'Instagram', icon: 'instagram', url: 'https://www.instagram.com/__thenextmove__/' },
+] as const;
 
 // Informations légales (page Mentions légales). Un champ vide n'est pas affiché :
 // rien de provisoire ni d'inventé n'apparaît en ligne.

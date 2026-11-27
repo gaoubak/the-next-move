@@ -1,6 +1,7 @@
 ---
 // Pied de page : signature, navigation, contact et mentions.
-import { SITE, NAV, SOCIAL } from '../config';
+import SocialLinks from './SocialLinks.astro';
+import { SITE, NAV } from '../config';
 import { getArticles } from '../lib/content';
 import credits from '../assets/found/credits.json';
 
@@ -26,8 +27,8 @@ const list = credits as { title: string; creator?: string; page: string; license
         <ul>
           <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
           <li><a href="/contact">Demander un appel découverte</a></li>
-          {SOCIAL.map((s) => <li><a href={s.url} rel="noopener" target="_blank">{s.label}</a></li>)}
         </ul>
+        <SocialLinks class="foot-social" />
       </div>
       <div class="imprint">
         <p>© {year} {SITE.name} · {SITE.owner} · <a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a> · Site réalisé par Minoh</p>
@@ -67,4 +68,5 @@ const list = credits as { title: string; creator?: string; page: string; license
     .back { grid-template-columns: minmax(0, 1fr); gap: 32px; padding: 48px 22px 24px; }
     .address li a { font-size: 17px; }
   }
+  .address :global(.foot-social) { margin-top: 20px; }
 </style>

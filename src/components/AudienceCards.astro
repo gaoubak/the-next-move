@@ -6,7 +6,7 @@ const offers = (await getCollection('offers')).sort((a, b) => a.data.order - b.d
 ---
 <section class="audiences on-dark">
   <div class="wrap">
-    <h2 class="reveal">À qui je m’adresse</h2>
+    <h2 class="reveal">À qui s’adresse The Next Move ?</h2>
     <div class="cols" data-stagger>
       {offers.map(({ id, data }) => (
         <a class="col" href={`/accompagnements#${id}`}>

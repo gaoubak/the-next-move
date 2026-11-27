@@ -5,6 +5,7 @@
 // ?profil=jeunes|professionnels|entreprises et ?demande=orientation|organisation|ia|autre pré-cochent les choix.
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
+import SocialLinks from '../components/SocialLinks.astro';
 import { SITE, SOCIAL } from '../config';
 import { PROFILES, REQUESTS } from '../lib/contact';
 
@@ -99,9 +100,7 @@ const formats = ['Visioconférence', 'Téléphone'];
         {SOCIAL.length > 0 && (
           <>
             <h2 class="social-title">Me retrouver</h2>
-            <ul class="social">
-              {SOCIAL.map((s) => <li><a href={s.url} target="_blank" rel="noopener">{s.label}</a></li>)}
-            </ul>
+            <SocialLinks />
           </>
         )}
       </aside>
@@ -149,8 +148,6 @@ const formats = ['Visioconférence', 'Téléphone'];
   .copy { min-height: 44px; padding: 8px 18px; }
   .status { margin: 8px 0 0; min-height: 1.4em; font-size: var(--t-5); color: var(--olive); }
   .social-title { margin-top: 24px; }
-  .social { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-  .social a { font-weight: 600; color: var(--olive); text-underline-offset: 4px; }
 
   @media (max-width: 1020px) { .grid { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 640px) {

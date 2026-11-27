@@ -1,5 +1,6 @@
 ---
-// Les trois formations IA, une bande par niveau : pour qui, des exemples concrets, ce que l'on saura faire à l'issue.
+// Les trois formations IA. Premier niveau : nom, positionnement, public, compétences, prérequis, bouton.
+// Le programme détaillé (description, « Au programme », applications pratiques) se déplie à la demande.
 import Photo from './Photo.astro';
 import { getTrainings } from '../lib/content';
 import { contactHref } from '../lib/contact';
@@ -8,7 +9,7 @@ interface Props { heading?: string; intro?: string; pictures?: boolean } // pict
 const {
   pictures = true,
   heading = 'Trois niveaux pour progresser',
-  intro = 'De la découverte de l’IA générative à une utilisation structurée, toujours à partir de situations de travail réelles.',
+  intro = 'Trois parcours de montée en compétences, de la découverte de l’IA générative à des usages avancés, toujours à partir de situations de travail réelles.',
 } = Astro.props;
 
 const trainings = await getTrainings();
@@ -36,21 +37,32 @@ const plates: Record<string, { photo: string; alt: string; pos: string }> = {
               {[1, 2, 3].map((n) => <i class:list={{ on: n <= data.level }}></i>)}
             </div>
             <h3>{data.title}</h3>
-            <p class="for">{data.verb} · {data.audience}</p>
-            <p>{data.summary}</p>
+            <p class="tagline">{data.tagline}</p>
+            <p><b>Pour qui :</b> {data.audience}</p>
             <p class="pre"><b>Prérequis :</b> {data.prerequisites}</p>
           </div>
-          <div class="lists" data-stagger>
-            <div>
-              <h4>Par exemple</h4>
-              <ul>{data.examples.map((e) => <li>{e}</li>)}</ul>
-            </div>
-            <div>
-              <h4>À l’issue, vous saurez</h4>
-              <ul class="ticks">{data.skills.map((s) => <li>{s}</li>)}</ul>
-            </div>
-            <a class="link-arrow" href={contactHref(undefined, 'ia')}>Échanger sur cette formation</a>
+          <div class="skills" data-stagger>
+            <h4>À l’issue, vous serez capable de</h4>
+            <ul class="ticks">{data.skills.map((s) => <li>{s}</li>)}</ul>
+            <a class="btn btn-primary" href={contactHref(undefined, 'ia')}>Échanger sur cette formation</a>
           </div>
+        </div>
+
+        <div class="wrap">
+          <details class="program">
+            <summary>Découvrir le programme détaillé<span class="sign" aria-hidden="true"></span></summary>
+            <div class="program-body">
+              <div class="desc">{data.description.map((d) => <p>{d}</p>)}</div>
+              <div>
+                <h4>Au programme</h4>
+                <ul>{data.program.map((x) => <li>{x}</li>)}</ul>
+              </div>
+              <div>
+                <h4>Applications pratiques</h4>
+                <ul>{data.applications.map((x) => <li>{x}</li>)}</ul>
+              </div>
+            </div>
+          </details>
         </div>
       </article>
     );
@@ -73,24 +85,44 @@ const plates: Record<string, { photo: string; alt: string; pos: string }> = {
   .lvl i { width: 32px; height: 6px; background: var(--creme-2); }
   .tone .lvl i { background: var(--creme); }
   .lvl i.on { background: var(--olive); }
-  h3 { font-size: var(--t-2); margin-bottom: 8px; }
-  .for { font-weight: 600; color: var(--olive); }
+  h3 { font-size: var(--t-2); margin-bottom: 10px; }
+  .tagline { font-family: var(--serif); font-size: var(--t-3); line-height: 1.4; color: var(--olive); }
   .pre { margin: 0; }
-  .lists { display: grid; gap: 24px; }
-  h4 { font-size: var(--t-4); font-weight: 600; margin: 0 0 10px; }
-  .lists ul:not(.ticks) { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
+  h4 { font-size: var(--t-4); font-weight: 600; margin: 0 0 12px; }
+  .skills .ticks { margin-bottom: 28px; }
+
+  /* Programme détaillé, replié par défaut */
+  .program { margin-top: 40px; background: var(--creme); }
+  .tone .program { background: var(--paper); }
+  .program summary { list-style: none; cursor: pointer; padding: 18px 56px 18px 24px; font-weight: 600; position: relative; min-height: 56px; display: flex; align-items: center; }
+  .program summary::-webkit-details-marker { display: none; }
+  .program summary:hover { color: var(--olive); }
+  .sign { position: absolute; right: 24px; top: 50%; width: 16px; height: 16px; margin-top: -8px; }
+  .sign::before, .sign::after { content: ""; position: absolute; left: 0; top: 7px; width: 16px; height: 2px; background: currentColor; transition: transform .3s var(--ease); }
+  .sign::after { transform: rotate(90deg); }
+  .program[open] .sign::after { transform: rotate(0deg); }
+  .program-body { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 4fr) minmax(0, 4fr); gap: clamp(24px, 4vw, 56px); padding: 8px 24px 32px; }
+  .desc p { margin: 0 0 .8em; }
+  .program-body ul { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .program[open] .program-body { animation: open .35s var(--ease); }
+  }
+  @keyframes open { from { opacity: 0; transform: translateY(-6px); } }
 
   @media (max-width: 1020px) {
     .trainings-section { padding-top: 96px; }
     .head { grid-template-columns: minmax(0, 1fr); gap: 16px; margin-bottom: 40px; }
     .row { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
-    .lists { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; }
-    .lists .link-arrow { grid-column: 1 / -1; }
+    .skills { grid-column: 1 / -1; }
     .row.no-pic { grid-template-columns: minmax(0, 1fr); }
+    .program-body { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 640px) {
     .training { padding: 48px 0; }
-    .row, .lists { grid-template-columns: minmax(0, 1fr); }
+    .row { grid-template-columns: minmax(0, 1fr); }
     .pic :global(img) { aspect-ratio: 3 / 2; }
+    .skills .btn { width: 100%; }
+    .program summary { padding-left: 18px; }
+    .program-body { padding: 4px 18px 24px; }
   }
 </style>

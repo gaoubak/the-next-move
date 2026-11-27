@@ -38,12 +38,13 @@ const trainings = defineCollection({
     order: z.number(),
     level: z.number().min(1).max(3),
     title: z.string(),
-    verb: z.string(),
+    tagline: z.string(), // phrase de positionnement
     audience: z.string(),
     prerequisites: z.string(),
-    summary: z.string(),
-    examples: z.array(z.string()), // deux ou trois cas concrets
-    skills: z.array(z.string()), // ce que les participants sauront faire à l'issue de la formation
+    description: z.array(z.string()), // paragraphes du programme détaillé
+    program: z.array(z.string()), // « Au programme »
+    applications: z.array(z.string()), // applications pratiques
+    skills: z.array(z.string()), // « À l'issue de la formation, vous serez capable de »
   }),
 });
 

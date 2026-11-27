@@ -1,11 +1,13 @@
 ---
+// À propos, en trois temps : qui je suis, pourquoi The Next Move, ma façon de travailler.
+// Le parcours détaillé reste accessible dans une section repliée.
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Photo from '../components/Photo.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { SITE } from '../config';
 
-const strengths = [
+const approach = [
   { title: 'Analyse & conseil', text: 'Comprendre les besoins, identifier les enjeux et proposer une direction claire.' },
   { title: 'Gestion de projet & organisation', text: 'Structurer les étapes, coordonner et transformer les idées en actions.' },
   { title: 'IA & transmission', text: 'Rendre les outils accessibles, accompagner leur appropriation et développer les compétences.' },
@@ -14,7 +16,7 @@ const strengths = [
 const background = [
   { k: 'Formation', v: ['Bachelier en Sciences biomédicales', 'Master en Santé publique, Gestion des établissements de soins'] },
   { k: 'Expérience', v: ['Consultante en transformation digitale', 'Cheffe de projet, principalement dans le secteur hospitalier', 'Business Analyst, Product Owner'] },
-  { k: 'Formation IA', v: ['Conception et animation de formations à l’IA générative'] },
+  { k: 'Intelligence artificielle', v: ['Conception et animation de formations à l’IA générative'] },
 ];
 ---
 <Base title={`À propos — ${SITE.owner} · ${SITE.name}`} description={`Qui est ${SITE.owner} : un parcours entre sciences biomédicales, santé publique, transformation digitale et intelligence artificielle, et ce qui a donné naissance à The Next Move.`}>
@@ -26,89 +28,98 @@ const background = [
     pos="45% 25%"
   >
     <div class="intro">
-      <p>Mon parcours a commencé dans les sciences biomédicales, avec un intérêt particulier pour la médecine et la recherche, avant de se poursuivre dans le domaine de la santé publique et du Hospital Management.</p>
-      <p>Aujourd’hui, je travaille comme consultante en transformation digitale et cheffe de projet, principalement dans le secteur hospitalier. J’accompagne les organisations dans leurs projets, en faisant le lien entre les besoins des équipes, les méthodes de travail et les solutions technologiques.</p>
-      <p>En parallèle, je développe et anime des formations en intelligence artificielle, avec une conviction : les outils ne sont réellement intéressants que lorsqu’ils répondent à un besoin concret.</p>
+      <p>Mon parcours a commencé dans les sciences biomédicales, avec un intérêt marqué pour la médecine et la recherche, avant de m’orienter vers la santé publique et le Hospital Management.</p>
+      <p>Aujourd’hui, je suis consultante en transformation digitale et cheffe de projet, principalement dans le secteur hospitalier.</p>
+      <p>Au quotidien, j’analyse des besoins, j’accompagne des projets de transformation et je travaille avec des équipes aux métiers et aux attentes très différents. Mon rôle consiste souvent à faire le lien entre les personnes, les organisations et les solutions technologiques, pour transformer des besoins parfois complexes en projets concrets.</p>
+      <p>En parallèle, je développe mon expertise en intelligence artificielle et j’anime des formations pour aider les professionnels à comprendre ces nouveaux outils et surtout à en tirer une réelle valeur dans leur travail.</p>
+      <p class="drive">Ce qui m’anime depuis toujours, c’est la curiosité, le plaisir d’apprendre et de transmettre, mais aussi l’envie de comprendre les choses en profondeur pour trouver des solutions qui fonctionnent réellement.</p>
     </div>
   </PageHero>
 
   <section class="why">
     <div class="wrap why-grid">
-      <h2 class="reveal">Pourquoi The Next Move ?</h2>
-      <div class="reveal">
-        <p>Au fil de mes expériences, j’ai réalisé que ce qui m’intéressait le plus ne se limitait pas à la technologie ou à la gestion de projet.</p>
-        <p class="strong">C’est avant tout le fait de comprendre une situation, de prendre du recul, de structurer des idées et d’accompagner leur mise en œuvre.</p>
-        <p>J’ai créé The Next Move pour réunir ces différentes facettes de mon parcours et les mettre au service de personnes et d’équipes aux besoins variés.</p>
-        <p>Qu’il s’agisse de construire un projet professionnel, d’améliorer sa manière de travailler ou d’intégrer l’intelligence artificielle, j’aime partir de la réalité de chacun pour proposer des solutions utiles et adaptées.</p>
+      <div class="side reveal">
+        <h2>Pourquoi j’ai créé The Next Move</h2>
+        <figure>
+          <Photo name="tatiana-rizk-plateau" alt={`${SITE.owner} sur un plateau de télévision`} sizes="(max-width: 1020px) 90vw, 420px" />
+        </figure>
+      </div>
+      <div class="story reveal">
+        <p>The Next Move est né d’une envie que je nourris depuis plusieurs années : réunir mes différentes compétences dans un projet qui me ressemble, et les mettre directement au service des autres.</p>
+        <p>Mon parcours m’a amenée à travailler à la croisée de plusieurs univers : la science, la gestion, le conseil, la technologie et la formation.</p>
+        <p>Et finalement, ce sont toujours les mêmes choses qui me passionnent : comprendre une situation, identifier ce qui peut être amélioré, transmettre les bonnes méthodes et accompagner les personnes dans leur évolution.</p>
+        <p>J’ai aussi constaté qu’on dispose aujourd’hui d’une multitude d’outils, de ressources et de possibilités, mais qu’il n’est pas toujours simple de savoir par où commencer, quoi choisir ou comment les utiliser efficacement.</p>
+        <p class="strong">Avec The Next Move, j’ai voulu créer un accompagnement qui rassemble tout ce que j’aime faire : écouter, analyser, conseiller, structurer et transmettre.</p>
+        <p>Que l’on cherche sa voie, que l’on souhaite évoluer professionnellement ou que l’on veuille intégrer l’intelligence artificielle dans son activité, mon ambition reste la même : partager les méthodes et les outils les plus pertinents pour aider chacun à avancer de manière concrète et autonome.</p>
+        <p>Parce qu’au-delà des conseils, ce qui m’intéresse vraiment, c’est de voir une idée prendre forme, une personne gagner en confiance dans ses choix ou une équipe progresser dans sa manière de travailler.</p>
       </div>
     </div>
   </section>
 
-  <section class="strengths on-dark">
+  <section class="approach">
     <div class="wrap">
-      <h2 class="reveal">Ce que j’apporte</h2>
+      <div class="approach-head reveal">
+        <h2>Ma façon de travailler</h2>
+        <p>Une approche humaine, analytique et concrète.</p>
+      </div>
       <ul data-stagger>
-        {strengths.map((s) => <li><h3>{s.title}</h3><p>{s.text}</p></li>)}
+        {approach.map((s) => <li><h3>{s.title}</h3><p>{s.text}</p></li>)}
       </ul>
-    </div>
-  </section>
-
-  <section class="background">
-    <div class="wrap bg-grid">
-      <figure class="reveal">
-        <Photo name="tatiana-rizk-seance" alt={`${SITE.owner} en séance de travail`} sizes="(max-width: 1020px) 90vw, 420px" />
-      </figure>
-      <div>
-        <h2 class="reveal">Mon parcours en bref</h2>
-        <dl data-stagger>
+      <details class="background">
+        <summary>Mon parcours en détail<span class="sign" aria-hidden="true"></span></summary>
+        <dl>
           {background.map((b) => <div><dt>{b.k}</dt><dd>{b.v.join(' · ')}</dd></div>)}
         </dl>
-        <div class="btns reveal">
-          <a class="btn btn-primary" href="/contact#demande">Demander un appel découverte</a>
-          <a class="btn btn-ghost" href="/accompagnements">Découvrir les accompagnements</a>
-        </div>
-      </div>
+      </details>
     </div>
   </section>
   <CtaBand />
 </Base>
 
 <style>
-  .intro p { max-width: 54ch; margin-bottom: .9em; }
-  .intro p:last-child { margin-bottom: 0; }
+  .intro p { max-width: 54ch; margin-bottom: .8em; }
+  .intro .drive { font-family: var(--serif); font-size: var(--t-3); line-height: 1.4; color: var(--olive); margin: 1.2em 0 0; }
 
   .why { padding: 160px 0; background: var(--creme-2); }
   .why-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
-  .why p { font-size: var(--t-3); line-height: 1.55; max-width: 52ch; }
-  .why .strong { font-family: var(--serif); font-size: clamp(24px, 2.2vw, 30px); line-height: 1.35; color: var(--olive); }
-
-  .strengths { padding: 140px 0; background: var(--olive); color: var(--creme); }
-  .strengths h2 { margin-bottom: 48px; }
-  .strengths ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 56px); }
-  .strengths h3 { font-size: var(--t-2); margin-bottom: 10px; }
-  .strengths p { margin: 0; max-width: 34ch; }
-
-  .background { padding: 160px 0; }
-  .bg-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+  .side { position: sticky; top: calc(var(--header-h) + 32px); }
+  .side h2 { margin-bottom: 32px; }
   figure { margin: 0; }
   figure :global(img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 30% 30%; }
-  .background h2 { margin-bottom: 28px; }
-  dl { margin: 0 0 36px; display: grid; gap: 18px; }
-  dl div { display: grid; grid-template-columns: 140px 1fr; gap: 16px; }
+  .story p { font-size: var(--t-3); line-height: 1.55; max-width: 52ch; }
+  .story .strong { font-family: var(--serif); font-size: clamp(24px, 2.2vw, 30px); line-height: 1.35; color: var(--olive); margin: 1.4em 0; }
+
+  .approach { padding: 140px 0; background: var(--paper); }
+  .approach-head { margin-bottom: 48px; }
+  .approach-head h2 { margin-bottom: 8px; }
+  .approach-head p { font-size: var(--t-3); margin: 0; color: var(--olive); }
+  .approach ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 56px); }
+  .approach h3 { font-size: var(--t-2); margin-bottom: 10px; }
+  .approach li p { margin: 0; max-width: 34ch; }
+
+  .background { margin-top: 64px; background: var(--creme-2); }
+  .background summary { list-style: none; cursor: pointer; padding: 18px 56px 18px 24px; font-weight: 600; position: relative; min-height: 56px; display: flex; align-items: center; }
+  .background summary::-webkit-details-marker { display: none; }
+  .sign { position: absolute; right: 24px; top: 50%; width: 16px; height: 16px; margin-top: -8px; }
+  .sign::before, .sign::after { content: ""; position: absolute; left: 0; top: 7px; width: 16px; height: 2px; background: currentColor; transition: transform .3s var(--ease); }
+  .sign::after { transform: rotate(90deg); }
+  .background[open] .sign::after { transform: rotate(0deg); }
+  dl { margin: 0; padding: 4px 24px 28px; display: grid; gap: 14px; }
+  dl div { display: grid; grid-template-columns: 200px 1fr; gap: 16px; }
   dt { font-weight: 600; }
   dd { margin: 0; }
 
   @media (max-width: 1020px) {
-    .why, .strengths, .background { padding: 96px 0; }
-    .why-grid, .bg-grid { grid-template-columns: minmax(0, 1fr); }
-    .strengths ul { grid-template-columns: minmax(0, 1fr); }
-    .strengths p, .why p { max-width: none; }
+    .why, .approach { padding: 96px 0; }
+    .why-grid { grid-template-columns: minmax(0, 1fr); }
+    .side { position: static; }
     figure { max-width: 380px; }
+    .approach ul { grid-template-columns: minmax(0, 1fr); }
+    .approach li p, .story p { max-width: none; }
   }
   @media (max-width: 640px) {
     dl div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
-    .why p { font-size: 18px; }
-    .why .strong { font-size: 21px; }
-    .btns .btn { width: 100%; }
+    .story p { font-size: 18px; }
+    .story .strong { font-size: 21px; }
   }
 </style>
