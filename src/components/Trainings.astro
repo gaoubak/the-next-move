@@ -29,7 +29,7 @@ const plates: Record<string, { photo: string; alt: string; pos: string }> = {
       <article class:list={['training', { tone: i % 2 === 1 }]} id={id}>
         <div class:list={['wrap row', { 'no-pic': !pictures }]}>
           {pictures && <div class="pic reveal" style={`--pos:${p.pos}`}>
-            <Photo name={p.photo} alt={p.alt} sizes="(max-width: 1020px) 90vw, 380px" widths={[400, 640, 900]} />
+            <Photo name={p.photo} alt={p.alt} sizes="(max-width: 1020px) 90vw, 380px" />
           </div>}
           <div class="main" data-stagger>
             <div class="lvl" role="img" aria-label={`Niveau ${data.level} sur 3`}>
