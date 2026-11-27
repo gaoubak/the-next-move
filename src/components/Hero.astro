@@ -1,0 +1,104 @@
+---
+// Accueil : la signature, qui je suis, et le choix du profil.
+// Le profil choisi change le texte affiché et se retrouve pré-coché dans le formulaire de contact.
+// Le choix fonctionne sans JavaScript (boutons radio + :has) ; le script ne fait que mettre à jour le lien.
+import Photo from './Photo.astro';
+import Stripe from './Stripe.astro';
+import { SITE } from '../config';
+import { contactHref } from '../lib/contact';
+
+const situations = [
+  { id: 'jeunes', label: 'J’étudie ou je débute', move: 'Trouver votre direction : orientation, projet professionnel, CV et entretiens.' },
+  { id: 'professionnels', label: 'Je veux faire évoluer mon travail', move: 'Faire évoluer votre carrière, votre organisation ou vos outils, IA comprise.' },
+  { id: 'entreprises', label: 'J’accompagne une équipe', move: 'Former vos équipes à l’IA et faire évoluer vos méthodes de travail.' },
+] as const;
+---
+<section class="hero" id="accueil">
+  <div class="wrap hero-grid">
+    <div class="card">
+      <Stripe height={28} />
+      <div class="card-body enter">
+        <h1><span>Clarifier la suite.</span> <span>Structurer le changement.</span> <span>Passer à l’action.</span></h1>
+        <p class="lead">{SITE.owner} accompagne étudiants, professionnels et équipes en orientation, en méthodes de travail et en intelligence artificielle.</p>
+
+        <fieldset class="picker">
+          <legend>Vous êtes…</legend>
+          <div class="choices">
+            {situations.map((s) => (
+              <label>
+                <input type="radio" name="situation" value={s.id} data-href={contactHref(s.id)} />
+                <span>{s.label}</span>
+              </label>
+            ))}
+          </div>
+          <div class="moves" aria-live="polite">
+            {situations.map((s) => <p class="move" data-for={s.id}>{s.move} <a href={`/accompagnements#${s.id}`}>Voir les accompagnements</a></p>)}
+          </div>
+        </fieldset>
+
+        <div class="btns act">
+          <a class="btn btn-primary" id="hero-contact" href={contactHref()}>Demander un appel découverte</a>
+          <a class="btn btn-ghost" href="/accompagnements">Découvrir les accompagnements</a>
+        </div>
+      </div>
+    </div>
+
+    <figure class="room">
+      <Photo name="tatiana-rizk" alt={`Portrait de ${SITE.owner}`} sizes="(max-width: 900px) 100vw, 620px" priority />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .hero { padding: 12px 0 0; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; min-height: calc(100svh - var(--header-h) - 12px); }
+
+  .card { background: var(--paper); display: flex; flex-direction: column; min-width: 0; }
+  .card-body { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: clamp(32px, 6vh, 72px) clamp(24px, 4.5vw, 72px); }
+  h1 { font-size: clamp(34px, 3.1vw, 48px); font-weight: 300; letter-spacing: -.03em; line-height: 1.08; margin-bottom: 24px; }
+  h1 span { display: block; }
+  .lead { font-size: var(--t-3); line-height: 1.45; max-width: 38ch; margin-bottom: clamp(24px, 4vh, 36px); }
+
+  .picker { border: 0; padding: 0; margin: 0 0 clamp(24px, 4vh, 32px); max-width: 560px; }
+  legend { font-weight: 600; margin-bottom: 10px; padding: 0; }
+  .choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .choices label { position: relative; cursor: pointer; }
+  .choices input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .choices span { display: flex; align-items: center; min-height: 64px; height: 100%; padding: 10px 14px; background: var(--creme-2); font-size: 16px; font-weight: 600; line-height: 1.3; transition: background .2s, color .2s; }
+  .choices label:hover span { background: #E2DACC; }
+  .choices input:checked + span { background: var(--anthra); color: var(--creme); }
+  .choices input:focus-visible + span { outline: 2px solid var(--olive); outline-offset: 3px; }
+  .moves { margin-top: 14px; }
+  .move { margin: 0; display: none; }
+  .move a { color: var(--olive); font-weight: 600; text-underline-offset: 3px; white-space: nowrap; }
+  .picker:has(input[value='jeunes']:checked) .move[data-for='jeunes'],
+  .picker:has(input[value='professionnels']:checked) .move[data-for='professionnels'],
+  .picker:has(input[value='entreprises']:checked) .move[data-for='entreprises'] { display: block; }
+
+  .room { margin: 0; position: relative; overflow: hidden; background: var(--creme-2); min-height: 420px; }
+  .room :global(picture), .room :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .room :global(img) { object-fit: cover; object-position: 50% 20%; }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 0; min-height: 0; }
+    .room { order: -1; height: 46svh; min-height: 300px; }
+    .card { margin-top: -24px; position: relative; z-index: 1; margin-inline: 12px; }
+  }
+  @media (max-width: 640px) {
+    .card { margin-inline: 0; }
+    .card-body { padding: 28px 20px 32px; }
+    h1 { font-size: 32px; }
+    .lead { font-size: 18px; }
+    .choices { grid-template-columns: minmax(0, 1fr); }
+    .choices span { min-height: 52px; }
+    .act .btn { width: 100%; }
+  }
+</style>
+
+<script>
+  // Le bouton principal emporte le profil choisi vers le formulaire
+  const cta = document.querySelector<HTMLAnchorElement>('#hero-contact');
+  document.querySelectorAll<HTMLInputElement>('.picker input[name="situation"]').forEach((input) => {
+    input.addEventListener('change', () => { if (cta && input.checked) cta.href = input.dataset.href!; });
+  });
+</script>

@@ -1,0 +1,126 @@
+---
+// Plaquette entreprises au format A4, à enregistrer en PDF depuis le navigateur.
+import { getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Logo from '../../assets/logo/the-next-move-symbole.svg';
+import { getTrainings } from '../../lib/content';
+import { SITE } from '../../config';
+
+const offer = (await getEntry('offers', 'entreprises'))!;
+const trainings = await getTrainings();
+const formats = ['Présentiel', 'À distance', 'Intra-entreprise', 'Sur mesure'];
+---
+<Base title={`Plaquette entreprises — ${SITE.name}`} description="Plaquette de présentation de l’offre entreprises." noindex bare>
+  <div class="toolbar">
+    <a href="/accompagnements#entreprises">← Retour</a>
+    <button class="btn btn-primary" type="button" onclick="window.print()">Enregistrer en PDF</button>
+  </div>
+
+  <article class="sheet">
+    <header class="top">
+      <div class="brand">
+        <Logo width={52} height={52} aria-hidden="true" />
+        <div><strong>{SITE.name}</strong><span>{SITE.owner} · {SITE.role}</span></div>
+      </div>
+      <span class="tag">Offre entreprises</span>
+    </header>
+
+    <h1>Faire évoluer les pratiques des équipes</h1>
+    <p class="lead">Formations IA, ateliers et accompagnement au changement, adaptés aux métiers et aux cas d’usage de l’organisation.</p>
+
+    <h2>Trois leviers</h2>
+    <div class="cols">
+      {offer.data.items.map((item) => (
+        <div class="card">
+          <h3>{item.title}</h3>
+          <p>{item.need}</p>
+        </div>
+      ))}
+    </div>
+
+    <h2>Formations IA</h2>
+    <table>
+      <thead><tr><th>Niveau</th><th>Objectif</th><th>Pour qui</th><th>Prérequis</th></tr></thead>
+      <tbody>
+        {trainings.map(({ data }) => (
+          <tr>
+            <td><b>{data.title}</b><small>{data.verb}</small></td>
+            <td>{data.summary}</td>
+            <td>{data.audience}</td>
+            <td>{data.prerequisites}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <div class="split">
+      <div>
+        <h2>Déroulé</h2>
+        <ol>
+          <li><b>Échange</b> — besoins, contexte, niveau des équipes</li>
+          <li><b>Proposition</b> — programme et format adaptés</li>
+          <li><b>Intervention</b> — cas d’usage réels, pratique</li>
+        </ol>
+      </div>
+      <div>
+        <h2>Formats</h2>
+        <p>{formats.join(' · ')}</p>
+        <h2>Pour qui</h2>
+        <p>{offer.data.tag}</p>
+      </div>
+    </div>
+
+    <footer class="contact">
+      <div>
+        <strong>Premier échange gratuit</strong>
+        <span>Échangeons sur votre besoin</span>
+      </div>
+      <div class="right">
+        <span>{SITE.email}</span>
+        <span>{SITE.url.replace(/^https?:\/\//, '')}</span>
+      </div>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  :global(body) { background: var(--creme-2); }
+  .toolbar { max-width: 210mm; margin: 24px auto 16px; padding: 0 16px; display: flex; justify-content: space-between; align-items: center; }
+  .toolbar a { color: var(--olive); font-weight: 600; text-decoration: none; }
+  .sheet { width: 210mm; min-height: 297mm; margin: 0 auto 48px; background: var(--creme); padding: 16mm 16mm 14mm; box-shadow: 0 20px 60px -30px rgba(41, 40, 36, .4); display: flex; flex-direction: column; font-size: 10.5pt; line-height: 1.5; }
+  .top { display: flex; justify-content: space-between; align-items: center; padding-bottom: 8mm; border-bottom: 1px solid var(--line); margin-bottom: 10mm; }
+  .brand { display: flex; gap: 12px; align-items: center; }
+  .brand strong { display: block; font-family: var(--brand); font-weight: 400; font-size: 18pt; line-height: 1.1; }
+  .brand span { font-size: 9pt; color: var(--muted); }
+  .tag { font-size: 8.5pt; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--taupe-text); }
+  h1 { font-size: 28pt; font-weight: 300; margin-bottom: 4mm; }
+  .lead { font-size: 12pt; color: var(--muted); max-width: 150mm; margin-bottom: 8mm; }
+  h2 { font: 600 8.5pt var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--olive); margin: 7mm 0 3mm; }
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+  .card { background: var(--creme-2); border-radius: 3mm; padding: 5mm; }
+  .card h3 { font-size: 13pt; margin-bottom: 2mm; }
+  .card p { margin: 0; color: var(--muted); font-size: 9.5pt; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
+  th { text-align: left; font-size: 8pt; letter-spacing: .1em; text-transform: uppercase; color: var(--taupe-text); padding: 2mm 3mm 2mm 0; border-bottom: 1px solid var(--anthra); }
+  td { padding: 3mm 3mm 3mm 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td b { display: block; font-family: var(--serif); font-weight: 400; font-size: 12pt; }
+  td small { color: var(--taupe-text); font-size: 8.5pt; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; }
+  ol { margin: 0; padding-left: 5mm; display: grid; gap: 2mm; }
+  .split p { margin: 0; color: var(--body); }
+  .contact { margin-top: auto; padding: 6mm; border-radius: 3mm; background: var(--olive); color: var(--creme); display: flex; justify-content: space-between; align-items: center; gap: 8mm; }
+  .contact strong { display: block; font-family: var(--serif); font-weight: 400; font-size: 14pt; }
+  .contact span { display: block; font-size: 9.5pt; opacity: .85; }
+  .contact .right { text-align: right; }
+
+  @page { size: A4; margin: 0; }
+  @media print {
+    :global(body) { background: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .toolbar { display: none; }
+    .sheet { margin: 0; box-shadow: none; width: auto; min-height: 297mm; }
+  }
+  @media screen and (max-width: 840px) {
+    .sheet { width: auto; min-height: 0; margin: 0 12px 32px; padding: 24px 20px; }
+    .cols, .split { grid-template-columns: 1fr; }
+  }
+</style>

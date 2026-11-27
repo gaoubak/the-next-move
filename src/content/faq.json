@@ -1,0 +1,26 @@
+[
+  {
+    "id": "format",
+    "order": 1,
+    "question": "À distance ou en présentiel ?",
+    "answer": "Les deux, selon le format : individuel, petit groupe ou équipe."
+  },
+  {
+    "id": "par-ou-commencer",
+    "order": 2,
+    "question": "Par où commencer sans savoir quel format choisir ?",
+    "answer": "Par l’appel découverte : 15 minutes, gratuit et sans engagement, pour comprendre votre besoin et vous orienter vers le format adapté."
+  },
+  {
+    "id": "entreprises",
+    "order": 3,
+    "question": "Comment se passe une formation en entreprise ?",
+    "answer": "Un premier échange permet de comprendre vos besoins et le niveau des participants. Je vous propose ensuite un programme adapté à vos métiers et à vos cas d’usage."
+  },
+  {
+    "id": "niveau-ia",
+    "order": 4,
+    "question": "Faut-il déjà connaître l’IA ?",
+    "answer": "Non. IA Essentiels est conçue pour débuter sans jargon. IA au travail et IA professionnelle permettent ensuite d’aller plus loin."
+  }
+]

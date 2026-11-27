@@ -1,0 +1,100 @@
+---
+// Polices servies par le site lui-même (aucun appel à Google Fonts)
+import '@fontsource-variable/newsreader/opsz.css';
+import '@fontsource-variable/newsreader/opsz-italic.css';
+import '@fontsource-variable/manrope/index.css';
+import '@fontsource/fraunces/latin-400.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE, SOCIAL } from '../config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  fullscreen?: boolean; // sections plein écran (accueil)
+  bare?: boolean; // sans en-tête ni pied de page (ex. plaquette imprimable)
+}
+
+const { title = SITE.title, description = SITE.description, noindex = false, fullscreen = false, bare = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og-image.png', Astro.site);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfessionalService',
+      '@id': `${SITE.url}/#service`,
+      name: SITE.name,
+      description: SITE.description,
+      url: SITE.url,
+      email: SITE.email,
+      image: ogImage.href,
+      founder: { '@id': `${SITE.url}/#person` },
+      knowsAbout: ['Évolution professionnelle', 'Reconversion', 'Méthodes de travail', 'Intelligence artificielle générative'],
+    },
+    {
+      '@type': 'Person',
+      '@id': `${SITE.url}/#person`,
+      name: SITE.owner,
+      jobTitle: 'Consultante, coach et formatrice',
+      worksFor: { '@id': `${SITE.url}/#service` },
+      ...(SOCIAL.length ? { sameAs: SOCIAL.map((s) => s.url) } : {}),
+    },
+  ],
+};
+---
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonical}>
+  {noindex && <meta name="robots" content="noindex">}
+  <meta name="theme-color" content="#F4EFE7">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content={SITE.name}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonical}>
+  <meta property="og:image" content={ogImage}>
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="sitemap" href="/sitemap-index.xml">
+
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  {SITE.plausibleDomain && <script defer data-domain={SITE.plausibleDomain} src="https://plausible.io/js/script.js"></script>}
+  <script is:inline>document.documentElement.classList.add('js');</script>
+</head>
+<body class:list={{ fullscreen }}>
+  {!bare && <a class="skip" href="#contenu">Aller au contenu</a>}
+  {!bare && <Header />}
+  <main id="contenu">
+    <slot />
+  </main>
+  {!bare && <Footer />}
+
+  <script>
+    // Décale l'apparition des enfants de chaque bloc [data-stagger]
+    document.querySelectorAll<HTMLElement>('[data-stagger]').forEach((group) => {
+      Array.from(group.children).forEach((child, i) => (child as HTMLElement).style.setProperty('--i', String(i)));
+    });
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }),
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
+    );
+    document.querySelectorAll('.reveal, [data-stagger]').forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>

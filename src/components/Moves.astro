@@ -1,0 +1,45 @@
+---
+// La méthode en quatre temps, commune à tous les accompagnements.
+const steps = [
+  { title: 'D’abord, écouter', text: 'Votre situation, vos objectifs, ce qui vous freine. On part de ce qui est réel.' },
+  { title: 'Puis, clarifier', text: 'Prendre du recul, trier les priorités, garder l’essentiel.' },
+  { title: 'Ensuite, structurer', text: 'Des étapes concrètes, une méthode et des outils adaptés, IA comprise.' },
+  { title: 'Enfin, faire évoluer', text: 'Un plan d’action, de nouvelles habitudes et l’autonomie pour la suite.' },
+];
+---
+<section class="moves" id="methode">
+  <div class="wrap">
+    <div class="top">
+      <h2 class="reveal">Une même méthode, quatre temps</h2>
+      <p class="reveal">Chaque accompagnement suit le même fil : partir de votre situation réelle et aboutir à des étapes claires.</p>
+    </div>
+    <ol class="row" data-stagger aria-label="Les quatre temps de la méthode">
+      {steps.map((s) => (
+        <li>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .moves { padding: 140px 0; background: var(--olive); color: var(--creme); }
+  .top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: end; margin-bottom: 56px; }
+  .top p { max-width: 46ch; margin: 0; }
+  .row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  li { background: rgba(244, 239, 231, .1); padding: 32px 28px; }
+  h3 { font-size: var(--t-3); margin-bottom: 10px; }
+  li p { margin: 0; }
+
+  @media (max-width: 1020px) {
+    .moves { padding: 96px 0; }
+    .top { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+    .row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .moves { padding: 72px 0; }
+    .row { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

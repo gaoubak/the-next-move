@@ -1,0 +1,5 @@
+# Pages retirées : on redirige vers leur nouvel emplacement
+/tarifs            /accompagnements                301
+/tarifs/           /accompagnements                301
+/entreprises       /accompagnements#entreprises    301
+/entreprises/      /accompagnements#entreprises    301

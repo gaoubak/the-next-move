@@ -1,0 +1,96 @@
+---
+// Les trois formations IA, une bande par niveau : pour qui, des exemples concrets, ce que l'on saura faire à l'issue.
+import Photo from './Photo.astro';
+import { getTrainings } from '../lib/content';
+import { contactHref } from '../lib/contact';
+
+interface Props { heading?: string; intro?: string; pictures?: boolean } // pictures: false sur une page qui a déjà ses propres images
+const {
+  pictures = true,
+  heading = 'Trois niveaux pour progresser',
+  intro = 'De la découverte de l’IA générative à une utilisation structurée, toujours à partir de situations de travail réelles.',
+} = Astro.props;
+
+const trainings = await getTrainings();
+const plates: Record<string, { photo: string; alt: string; pos: string }> = {
+  'ia-essentiels': { photo: 'tnm-bureau', alt: 'Bureau en pierre claire : carnet, planning, horloge et ordinateur', pos: '40% 50%' },
+  'ia-au-travail': { photo: 'tnm-carnet', alt: 'Carnet ouvert sur une liste du jour et un planning, à côté d’un ordinateur', pos: '55% 60%' },
+  'ia-professionnelle': { photo: 'tnm-poste-ia', alt: 'Bureau lumineux, ordinateur ouvert sur un plan de travail, carnet et notes à côté', pos: '50% 45%' },
+};
+---
+<section class="trainings-section" id="niveaux">
+  <div class="wrap head">
+    <h2 class="reveal">{heading}</h2>
+    <p class="reveal">{intro}</p>
+  </div>
+  {trainings.map(({ id, data }, i) => {
+    const p = plates[id];
+    return (
+      <article class:list={['training', { tone: i % 2 === 1 }]} id={id}>
+        <div class:list={['wrap row', { 'no-pic': !pictures }]}>
+          {pictures && <div class="pic reveal" style={`--pos:${p.pos}`}>
+            <Photo name={p.photo} alt={p.alt} sizes="(max-width: 1020px) 90vw, 380px" widths={[400, 640, 900]} />
+          </div>}
+          <div class="main" data-stagger>
+            <div class="lvl" role="img" aria-label={`Niveau ${data.level} sur 3`}>
+              {[1, 2, 3].map((n) => <i class:list={{ on: n <= data.level }}></i>)}
+            </div>
+            <h3>{data.title}</h3>
+            <p class="for">{data.verb} · {data.audience}</p>
+            <p>{data.summary}</p>
+            <p class="pre"><b>Prérequis :</b> {data.prerequisites}</p>
+          </div>
+          <div class="lists" data-stagger>
+            <div>
+              <h4>Par exemple</h4>
+              <ul>{data.examples.map((e) => <li>{e}</li>)}</ul>
+            </div>
+            <div>
+              <h4>À l’issue, vous saurez</h4>
+              <ul class="ticks">{data.skills.map((s) => <li>{s}</li>)}</ul>
+            </div>
+            <a class="link-arrow" href={contactHref(undefined, 'ia')}>Échanger sur cette formation</a>
+          </div>
+        </div>
+      </article>
+    );
+  })}
+</section>
+
+<style>
+  .trainings-section { padding: 160px 0 0; }
+  .head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: end; margin-bottom: 64px; }
+  .head p { max-width: 46ch; margin: 0; }
+
+  .training { padding: 72px 0; background: var(--paper); scroll-margin-top: var(--header-h); }
+  .training.tone { background: var(--creme-2); }
+  .row { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 5fr) minmax(0, 4fr); gap: clamp(28px, 4vw, 56px); align-items: start; }
+  .row.no-pic { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+  .pic { overflow: hidden; }
+  .pic :global(img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: var(--pos); }
+
+  .lvl { display: flex; gap: 6px; margin-bottom: 20px; }
+  .lvl i { width: 32px; height: 6px; background: var(--creme-2); }
+  .tone .lvl i { background: var(--creme); }
+  .lvl i.on { background: var(--olive); }
+  h3 { font-size: var(--t-2); margin-bottom: 8px; }
+  .for { font-weight: 600; color: var(--olive); }
+  .pre { margin: 0; }
+  .lists { display: grid; gap: 24px; }
+  h4 { font-size: var(--t-4); font-weight: 600; margin: 0 0 10px; }
+  .lists ul:not(.ticks) { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
+
+  @media (max-width: 1020px) {
+    .trainings-section { padding-top: 96px; }
+    .head { grid-template-columns: minmax(0, 1fr); gap: 16px; margin-bottom: 40px; }
+    .row { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+    .lists { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; }
+    .lists .link-arrow { grid-column: 1 / -1; }
+    .row.no-pic { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .training { padding: 48px 0; }
+    .row, .lists { grid-template-columns: minmax(0, 1fr); }
+    .pic :global(img) { aspect-ratio: 3 / 2; }
+  }
+</style>

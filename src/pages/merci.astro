@@ -1,0 +1,23 @@
+---
+// Page affichée après l'envoi du formulaire quand JavaScript est désactivé.
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+---
+<Base title={`Merci — ${SITE.name}`} description="Votre demande a bien été envoyée." noindex>
+  <section class="thanks">
+    <div class="wrap">
+      <div class="card">
+        <h1>Merci pour votre message !</h1>
+        <p>Je reviendrai vers vous par e-mail afin de convenir ensemble d’un créneau.</p>
+        <a class="btn btn-primary" href="/">Retour à l’accueil</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .thanks { padding: 120px 0 160px; }
+  .card { background: var(--paper); padding: clamp(32px, 6vw, 80px); max-width: 760px; }
+  h1 { font-size: var(--t-1); font-weight: 300; letter-spacing: -.03em; line-height: 1.05; margin-bottom: 20px; }
+  p { font-size: var(--t-3); line-height: 1.45; max-width: 36ch; margin-bottom: 32px; }
+</style>

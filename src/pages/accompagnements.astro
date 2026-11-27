@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import OfferBlock from '../components/OfferBlock.astro';
+import Moves from '../components/Moves.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SITE } from '../config';
+
+const offers = (await getCollection('offers')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title={`Accompagnements — ${SITE.name}`} description="Accompagnements pour les jeunes, les professionnels et les entreprises : orientation, projet professionnel, reconversion, organisation, méthodes de travail et IA.">
+  <PageHero
+    crumbs={[{ label: 'Accompagnements' }]}
+    title="Avancer avec méthode"
+    lead="Trois publics, une même façon de travailler : partir de votre situation pour construire des étapes concrètes."
+    photo="tatiana-rizk-seance"
+    alt={`${SITE.owner} en séance de travail`}
+    pos="40% 30%"
+  >
+    <nav class="jump" aria-label="Accès rapide">
+      {offers.map((o) => <a href={`#${o.id}`}>{o.data.title}</a>)}
+    </nav>
+  </PageHero>
+
+  {offers.map((offer, i) => <OfferBlock offer={offer} tone={i % 2 === 1} />)}
+
+  <Moves />
+  <Faq />
+  <CtaBand />
+</Base>
+
+<style>
+  .jump { display: flex; flex-wrap: wrap; gap: 8px; }
+  .jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; background: var(--creme-2); font-size: 15px; font-weight: 600; text-decoration: none; transition: background .2s, color .2s; }
+  .jump a:hover { background: var(--anthra); color: var(--creme); }
+  .jump a:active { transform: scale(.98); }
+</style>

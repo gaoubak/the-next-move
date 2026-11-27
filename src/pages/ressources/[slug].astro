@@ -1,0 +1,71 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { getArticles, readingTime } from '../../lib/content';
+import { SITE } from '../../config';
+
+export async function getStaticPaths() {
+  const articles = await getArticles();
+  return articles.map((article) => ({ params: { slug: article.id }, props: { article } }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+const fmt = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.data.title,
+  description: article.data.description,
+  datePublished: article.data.date.toISOString(),
+  author: { '@type': 'Person', name: SITE.owner },
+  publisher: { '@type': 'Organization', name: SITE.name },
+};
+---
+<Base title={`${article.data.title} — ${SITE.name}`} description={article.data.description} noindex={article.data.draft}>
+  <article class="post">
+    <div class="wrap narrow">
+      <Breadcrumb items={[{ label: 'Ressources', href: '/ressources' }, { label: article.data.title }]} />
+      <header class="enter">
+        <div class="meta">
+          <time datetime={article.data.date.toISOString()}>{fmt.format(article.data.date)}</time>
+          <span>{readingTime(article.body)} min de lecture</span>
+          {article.data.draft && <span class="draft">Brouillon — non publié</span>}
+        </div>
+        <h1>{article.data.title}</h1>
+        <p class="lead">{article.data.description}</p>
+      </header>
+      <div class="prose reveal"><Content /></div>
+      <footer class="author">
+        <strong>{SITE.owner}</strong>
+        <span>{SITE.role}</span>
+        <a class="link-arrow" href="/formations">Voir les formations IA</a>
+      </footer>
+    </div>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </article>
+  <CtaBand />
+</Base>
+
+<style>
+  .post { padding: 40px 0 112px; }
+  .narrow { max-width: 760px; }
+  header { margin: 48px 0 40px; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+  .meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13.5px; color: var(--taupe-text); font-weight: 600; margin-bottom: 18px; }
+  .draft { background: #E9C46A; color: var(--anthra); padding: 1px 10px; border-radius: 999px; }
+  h1 { font-size: clamp(36px, 5vw, 54px); font-weight: 300; margin-bottom: 18px; }
+  .lead { font-size: 19px; color: var(--muted); margin: 0; }
+  .prose { font-size: 18px; line-height: 1.75; color: var(--body); }
+  .prose :global(h2) { font-size: 30px; margin: 48px 0 14px; color: var(--anthra); }
+  .prose :global(blockquote) { margin: 24px 0; padding: 18px 22px; background: var(--creme-2); border-left: 3px solid var(--olive); border-radius: 0 8px 8px 0; font-size: 16px; }
+  .prose :global(blockquote p) { margin: 0; }
+  .prose :global(ul) { padding-left: 22px; }
+  .prose :global(li) { margin-bottom: 6px; }
+  .prose :global(a) { color: var(--olive); }
+  .author { margin-top: 56px; padding: 28px; border-radius: 12px; background: var(--creme-2); display: grid; gap: 4px; }
+  .author strong { font-family: var(--serif); font-weight: 400; font-size: 22px; }
+  .author span { color: var(--muted); font-size: 14.5px; margin-bottom: 10px; }
+  @media (max-width: 640px) { .post { padding: 24px 0 80px; } header { margin-top: 32px; } .prose { font-size: 17px; } }
+</style>

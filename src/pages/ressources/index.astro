@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { getArticles, readingTime } from '../../lib/content';
+import { SITE } from '../../config';
+
+const articles = await getArticles();
+const fmt = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<Base title={`Ressources — ${SITE.name}`} description="Articles pratiques sur l’IA au travail, l’organisation et l’évolution professionnelle." noindex={articles.length === 0}>
+  <PageHero
+    crumbs={[{ label: 'Ressources' }]}
+    title="Conseils & méthodes"
+    lead="IA au travail, organisation, évolution professionnelle : des articles courts et concrets."
+  />
+  <section>
+    <div class="wrap">
+      {articles.length === 0 ? (
+        <p class="empty">Premiers articles très bientôt.</p>
+      ) : (
+        <div class="list" data-stagger>
+          {articles.map((a) => (
+            <a class="item" href={`/ressources/${a.id}`}>
+              <div class="meta">
+                <time datetime={a.data.date.toISOString()}>{fmt.format(a.data.date)}</time>
+                <span>{readingTime(a.body)} min</span>
+                {a.data.draft && <span class="draft">Brouillon</span>}
+              </div>
+              <h2>{a.data.title}</h2>
+              <p>{a.data.description}</p>
+              <ul class="chips">{a.data.tags.map((t) => <li>{t}</li>)}</ul>
+              <span class="link-arrow">Lire l’article</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+  .item { display: flex; flex-direction: column; gap: 12px; padding: 32px; border-radius: 12px; background: var(--creme-2); text-decoration: none; border: 1px solid transparent; transition: border-color .3s, transform .4s var(--ease); }
+  .item:hover { border-color: var(--sauge); transform: translateY(-4px); }
+  .meta { display: flex; gap: 14px; font-size: 13px; color: var(--taupe-text); font-weight: 600; }
+  .draft { background: #E9C46A; color: var(--anthra); padding: 1px 8px; border-radius: 999px; }
+  h2 { font-size: 26px !important; }
+  p { color: var(--muted); margin: 0; }
+  .item .chips li { background: var(--creme); }
+  .link-arrow { margin-top: auto; padding-top: 8px; }
+  .empty { color: var(--muted); font-size: 18px; }
+</style>

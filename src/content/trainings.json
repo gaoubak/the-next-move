@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ia-essentiels",
+    "order": 1,
+    "level": 1,
+    "title": "IA Essentiels",
+    "verb": "Découvrir",
+    "audience": "Toute personne qui débute avec l’IA générative",
+    "prerequisites": "Aucun",
+    "summary": "Découvrir les possibilités de l’IA générative, apprendre à formuler des demandes pertinentes et utiliser les outils avec discernement.",
+    "examples": ["Reformuler un e-mail délicat", "Résumer un long document", "Trouver des idées pour lancer un projet"],
+    "skills": ["Comprendre ce que l’IA générative fait bien, et moins bien", "Formuler une demande claire, puis l’affiner", "Vérifier une réponse avant de l’utiliser"]
+  },
+  {
+    "id": "ia-au-travail",
+    "order": 2,
+    "level": 2,
+    "title": "IA au travail",
+    "verb": "Appliquer",
+    "audience": "Professionnels qui veulent gagner du temps sur leurs tâches",
+    "prerequisites": "Avoir déjà testé un outil d’IA",
+    "summary": "Intégrer l’IA dans les tâches professionnelles : rédaction, synthèse, réunions, documents et organisation.",
+    "examples": ["Préparer une réunion et en rédiger le compte rendu", "Synthétiser plusieurs documents en une note", "Structurer une présentation"],
+    "skills": ["Repérer les tâches où l’IA fait vraiment gagner du temps", "Construire des demandes réutilisables pour son métier", "Garder la maîtrise de la qualité et de la confidentialité"]
+  },
+  {
+    "id": "ia-professionnelle",
+    "order": 3,
+    "level": 3,
+    "title": "IA professionnelle",
+    "verb": "Structurer",
+    "audience": "Utilisateurs réguliers qui veulent aller plus loin",
+    "prerequisites": "Usage régulier de l’IA",
+    "summary": "Approfondir les usages : analyse de fichiers, recherche avancée, gestion du contexte, workflows et automatisations simples.",
+    "examples": ["Analyser un fichier et en tirer les points clés", "Mener une recherche approfondie et sourcée", "Automatiser une tâche répétitive simple"],
+    "skills": ["Organiser ses projets et leur contexte dans les outils", "Enchaîner plusieurs étapes dans un workflow", "Choisir l’outil adapté à chaque besoin"]
+  }
+]

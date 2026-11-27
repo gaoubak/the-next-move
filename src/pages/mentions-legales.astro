@@ -1,0 +1,56 @@
+---
+// Mentions légales (droit belge : Code de droit économique, art. III.74 et XII.6).
+// Les champs de LEGAL (config.ts) ne s'affichent que lorsqu'ils sont renseignés : rien de provisoire n'est publié.
+// ⚠️ Pour un prestataire de services en Belgique, le numéro BCE, la TVA éventuelle et une adresse géographique
+// font partie des mentions obligatoires. À compléter dans config.ts dès qu'ils sont disponibles (prévu en janvier 2027),
+// et à valider avant publication si l'adresse ne doit pas être celle du lieu de réception (ex. domiciliation).
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { SITE, LEGAL } from '../config';
+
+const editor = [
+  { k: 'Nom', v: `${SITE.owner}, ${SITE.name}` },
+  { k: 'Statut', v: LEGAL.status },
+  { k: 'Numéro d’entreprise (BCE)', v: LEGAL.bce },
+  { k: 'Numéro de TVA', v: LEGAL.vat },
+  { k: 'Adresse', v: LEGAL.address },
+].filter((row) => row.v);
+---
+<Base title={`Mentions légales — ${SITE.name}`} description="Mentions légales du site The Next Move." noindex>
+  <section class="legal">
+    <div class="wrap">
+      <Breadcrumb items={[{ label: 'Mentions légales' }]} />
+      <h1>Mentions légales</h1>
+      <p class="lead">Qui édite ce site, qui l’héberge et à qui appartiennent ses contenus.</p>
+
+      <h2>Éditeur du site</h2>
+      <dl>
+        {editor.map((row) => <div><dt>{row.k}</dt><dd>{row.v}</dd></div>)}
+        <div><dt>Contact</dt><dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd></div>
+      </dl>
+
+      <h2>Hébergement</h2>
+      <p>Netlify, Inc., 101 2nd Street, Suite 575, San Francisco, CA 94105, États-Unis. <a href="https://www.netlify.com" rel="noopener">www.netlify.com</a></p>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>Les textes, le logo et les photographies de ce site appartiennent à {SITE.owner}, sauf mention contraire. Toute reproduction sans autorisation préalable est interdite. Les crédits des images d’autres auteurs figurent en pied de page.</p>
+
+      <h2>Données personnelles</h2>
+      <p>La façon dont les informations transmises par le formulaire ou par e-mail sont traitées est décrite dans la <a href="/confidentialite">politique de confidentialité</a>.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal { padding: 40px 0 120px; }
+  .legal .wrap { max-width: 820px; }
+  h1 { font-size: var(--t-1); font-weight: 300; letter-spacing: -.03em; margin: 40px 0 12px; }
+  .lead { font-size: var(--t-3); line-height: 1.45; max-width: 44ch; }
+  h2 { font-size: var(--t-3); font-family: var(--sans); font-weight: 600; letter-spacing: 0; margin: 40px 0 12px; }
+  dl { margin: 0; display: grid; gap: 8px; }
+  dl div { display: grid; grid-template-columns: 220px 1fr; gap: 16px; }
+  dt { font-weight: 600; }
+  dd { margin: 0; }
+  a { color: var(--olive); text-underline-offset: 3px; }
+  @media (max-width: 640px) { dl div { grid-template-columns: minmax(0, 1fr); gap: 0; } }
+</style>

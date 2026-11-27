@@ -1,0 +1,38 @@
+---
+// Accueil : les trois publics, leurs besoins en quelques mots et l'accès direct à leurs accompagnements.
+import { getCollection } from 'astro:content';
+
+const offers = (await getCollection('offers')).sort((a, b) => a.data.order - b.data.order);
+---
+<section class="audiences on-dark">
+  <div class="wrap">
+    <h2 class="reveal">À qui je m’adresse</h2>
+    <div class="cols" data-stagger>
+      {offers.map(({ id, data }) => (
+        <a class="col" href={`/accompagnements#${id}`}>
+          <h3>{data.title}</h3>
+          <p>{data.short}</p>
+          <ul>{data.items.map((it) => <li>{it.title}</li>)}</ul>
+          <span class="link-arrow">Voir les accompagnements</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .audiences { background: var(--olive); color: var(--creme); padding: 160px 0; }
+  h2 { margin-bottom: 48px; }
+  .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .col { background: var(--paper); color: var(--anthra); padding: 40px 32px; text-decoration: none; display: flex; flex-direction: column; transition: background .25s; }
+  .col:hover { background: #fff; }
+  .col:active { transform: scale(.99); }
+  h3 { font-size: var(--t-2); margin-bottom: 12px; }
+  ul { list-style: none; margin: 8px 0 28px; padding: 0; display: grid; gap: 6px; font-weight: 600; }
+  .link-arrow { margin-top: auto; }
+  @media (max-width: 1020px) {
+    .audiences { padding: 96px 0; }
+    .cols { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 640px) { .col { padding: 32px 22px; } }
+</style>

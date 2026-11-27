@@ -1,0 +1,38 @@
+[
+  {
+    "id": "jeunes",
+    "order": 1,
+    "tag": "Étudiants, jeunes diplômés",
+    "title": "Jeunes & début de carrière",
+    "short": "Trouver sa direction et préparer son entrée dans la vie professionnelle.",
+    "items": [
+      { "title": "Orientation & choix d’études", "need": "Explorer les options et clarifier une direction.", "benefit": "Des pistes concrètes et des critères pour choisir.", "request": "orientation" },
+      { "title": "Projet professionnel", "need": "Identifier vos compétences et construire les prochaines étapes.", "benefit": "Un projet formulé clairement et un plan pour avancer.", "request": "orientation" },
+      { "title": "CV, LinkedIn & entretiens", "need": "Mieux valoriser votre profil et préparer vos candidatures.", "benefit": "Un profil qui vous ressemble et plus d’assurance en entretien.", "request": "orientation" }
+    ]
+  },
+  {
+    "id": "professionnels",
+    "order": 2,
+    "tag": "Salariés, indépendants, personnes en reconversion",
+    "title": "Professionnels & indépendants",
+    "short": "Faire évoluer sa carrière, son organisation ou ses outils.",
+    "items": [
+      { "title": "Évolution & reconversion", "need": "Prendre du recul, identifier des opportunités et préparer une transition.", "benefit": "Des options réalistes et une feuille de route pour la suite.", "request": "orientation" },
+      { "title": "Organisation & efficacité", "need": "Revoir vos priorités et mettre en place des méthodes adaptées.", "benefit": "Une organisation plus claire, que vous gardez au quotidien.", "request": "organisation" },
+      { "title": "IA au quotidien", "need": "Intégrer des outils utiles dans vos tâches personnelles et professionnelles.", "benefit": "Des usages de l’IA qui vous font vraiment gagner du temps.", "request": "ia" }
+    ]
+  },
+  {
+    "id": "entreprises",
+    "order": 3,
+    "tag": "Directions, RH, managers, équipes métier",
+    "title": "Entreprises & équipes",
+    "short": "Faire évoluer les pratiques des équipes et intégrer l’IA concrètement.",
+    "items": [
+      { "title": "Formations IA", "need": "Sensibiliser les équipes et développer les usages professionnels de l’IA.", "benefit": "Des équipes qui utilisent l’IA avec méthode et discernement.", "request": "ia" },
+      { "title": "Productivité & nouvelles méthodes", "need": "Améliorer l’organisation et les pratiques de travail.", "benefit": "Des façons de travailler plus fluides, adoptées par l’équipe.", "request": "organisation" },
+      { "title": "Ateliers sur mesure", "need": "Répondre à une problématique concrète avec vos équipes.", "benefit": "Une réponse construite avec les personnes concernées.", "request": "autre" }
+    ]
+  }
+]

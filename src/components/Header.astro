@@ -1,0 +1,98 @@
+---
+import Symbol from '../assets/logo/the-next-move-symbole.svg';
+import { SITE, NAV } from '../config';
+import { getArticles } from '../lib/content';
+
+// « Ressources » n'apparaît que lorsqu'au moins un article est disponible.
+const links = (await getArticles()).length ? [...NAV, { href: '/ressources', label: 'Ressources' }] : NAV;
+
+const path = Astro.url.pathname.replace(/\/$/, '');
+const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+<header class="site-header" id="top">
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label={`${SITE.name} — accueil`}>
+      <Symbol class="mark" width={40} height={40} aria-hidden="true" />
+      <strong class="name">{SITE.name}</strong>
+    </a>
+    <button class="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu">
+      <span></span><span></span>
+    </button>
+    <nav aria-label="Navigation principale">
+      <ul id="menu">
+        {links.map((l) => (
+          <li><a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
+        ))}
+        <li>
+          <a class="book" href="/contact" aria-current={isCurrent('/contact') ? 'page' : undefined}>Prendre contact</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* Barre simple et opaque ; elle prend un ton plus foncé une fois la page défilée */
+  .site-header { position: sticky; top: 0; z-index: 20; background: var(--creme); transition: background .3s; }
+  .site-header.scrolled { background: var(--creme-2); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+  .brand :global(.mark) { height: 40px; width: 40px; flex: none; }
+  .name { font-family: var(--brand); font-weight: 400; font-size: 23px; letter-spacing: -.01em; color: var(--anthra); white-space: nowrap; }
+  nav { flex-shrink: 0; }
+  ul { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; align-items: center; }
+  nav a { white-space: nowrap; text-decoration: none; font-size: 15px; font-weight: 500; color: var(--anthra); position: relative; }
+  nav a:not(.book)::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--olive); transform: scaleX(0); transform-origin: left; transition: transform .3s var(--ease); }
+  nav a:not(.book):hover::after, nav a[aria-current='page']:not(.book)::after { transform: scaleX(1); }
+  nav a:hover, nav a[aria-current='page'] { color: var(--olive); }
+  nav a.book { display: inline-flex; align-items: center; min-height: 44px; background: var(--olive); color: var(--creme); padding: 0 20px; font-weight: 600; transition: background .2s, transform .2s var(--ease); }
+  nav a.book:hover { background: var(--olive-dk); color: var(--creme); }
+  nav a.book:active { transform: scale(.97); }
+
+  .burger { display: none; background: none; border: 0; padding: 12px 8px; cursor: pointer; }
+  .burger span { display: block; width: 24px; height: 2px; background: var(--anthra); margin: 6px 0; transition: transform .25s; }
+  .burger[aria-expanded='true'] span:first-child { transform: translateY(4px) rotate(45deg); }
+  .burger[aria-expanded='true'] span:last-child { transform: translateY(-4px) rotate(-45deg); }
+
+  @media (max-width: 1240px) { ul { gap: 22px; } }
+  /* Sous 1120 px le menu complet ne tient plus : passage au menu burger */
+  @media (max-width: 1120px) {
+    nav { flex-shrink: 1; }
+    ul { position: fixed; inset: var(--header-h) 0 auto 0; background: var(--creme-2); flex-direction: column; align-items: stretch; gap: 0; padding: 8px var(--gutter) 24px; box-shadow: 0 20px 40px rgba(41, 40, 36, .1); display: none; } /* taste-skill-ignore: menu déroulant, vraie surcouche */
+    ul.open { display: flex; }
+    nav a { display: block; padding: 14px 0; font-size: 17px; }
+    nav a:not(.book)::after { display: none; }
+    nav a[aria-current='page']:not(.book) { font-weight: 600; }
+    nav a.book { margin-top: 12px; justify-content: center; min-height: 52px; }
+    .burger { display: block; }
+  }
+  @media (max-width: 640px) {
+    .name { font-size: 21px; }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.site-header')!;
+  const burger = header.querySelector<HTMLButtonElement>('.burger')!;
+  const menu = header.querySelector<HTMLUListElement>('#menu')!;
+
+  const onScroll = () => header.classList.toggle('scrolled', scrollY > 10);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const setOpen = (open: boolean) => {
+    menu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+  };
+  const isOpen = () => menu.classList.contains('open');
+
+  burger.addEventListener('click', () => setOpen(!isOpen()));
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen()) { setOpen(false); burger.focus(); }
+  });
+  document.addEventListener('click', (e) => {
+    if (isOpen() && !header.contains(e.target as Node)) setOpen(false);
+  });
+</script>

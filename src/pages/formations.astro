@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Trainings from '../components/Trainings.astro';
+import LevelQuiz from '../components/LevelQuiz.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SITE } from '../config';
+import { contactHref } from '../lib/contact';
+---
+<Base title={`Formations IA — ${SITE.name}`} description="Formations à l’intelligence artificielle générative en trois niveaux, IA Essentiels, IA au travail et IA professionnelle, centrées sur des situations de travail réelles.">
+  <PageHero
+    crumbs={[{ label: 'Formations IA' }]}
+    title="L’IA générative au travail"
+    lead="Trois niveaux, sans jargon, construits à partir de cas concrets. En individuel, en petit groupe ou en équipe, en présentiel ou à distance."
+    photo="tnm-reflexion"
+    alt="Une femme réfléchit, la main sous le menton, devant son ordinateur"
+    pos="30% 45%"
+  >
+    <div class="btns">
+      <a class="btn btn-primary" href="#quiz">Quel niveau pour moi ?</a>
+      <a class="btn btn-ghost" href="#niveaux">Voir les trois niveaux</a>
+    </div>
+  </PageHero>
+
+  <Trainings />
+  <LevelQuiz />
+  <CtaBand title="Prêt·e à passer à la pratique ?" text="Parlons de votre niveau, de vos outils et de vos situations de travail pour choisir la bonne formation." href={contactHref(undefined, 'ia')} />
+</Base>

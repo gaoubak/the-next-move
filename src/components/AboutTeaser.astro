@@ -1,0 +1,33 @@
+---
+// Accueil : qui je suis, en quelques lignes tirées de la page À propos.
+import Photo from './Photo.astro';
+import { SITE } from '../config';
+---
+<section class="about" id="parcours">
+  <div class="wrap grid">
+    <figure class="reveal">
+      <Photo name="tatiana-rizk-seance" alt={`${SITE.owner} en séance de travail`} sizes="(max-width: 1020px) 90vw, 520px" />
+    </figure>
+    <div class="txt reveal">
+      <h2>Bonjour, moi c’est Tatiana.</h2>
+      <p>Mon parcours a commencé dans les sciences biomédicales, avant de se poursuivre dans la santé publique et le Hospital Management. Aujourd’hui, je travaille comme consultante en transformation digitale et cheffe de projet, et je développe des formations en intelligence artificielle.</p>
+      <p>Avec The Next Move, je réunis ces facettes de mon parcours pour aider chacun à transformer une situation parfois complexe en démarche concrète.</p>
+      <a class="link-arrow" href="/a-propos">Découvrir mon parcours</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about { padding: 160px 0; }
+  .grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+  figure { margin: 0; }
+  figure :global(img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 30% 30%; }
+  h2 { margin-bottom: 20px; }
+  .txt p { font-size: var(--t-3); line-height: 1.5; max-width: 44ch; }
+  @media (max-width: 1020px) {
+    .about { padding: 96px 0; }
+    .grid { grid-template-columns: minmax(0, 1fr); }
+    figure { max-width: 420px; }
+  }
+  @media (max-width: 640px) { .txt p { font-size: 17px; } }
+</style>

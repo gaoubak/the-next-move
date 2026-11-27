@@ -1,0 +1,40 @@
+---
+// Appel à l'action en bas de chaque page : une invitation, un seul bouton vers le formulaire.
+interface Props {
+  title?: string;
+  text?: string;
+  href?: string;
+}
+const {
+  title = 'Parlons de la suite.',
+  text = 'Un premier appel découverte de 15 minutes, gratuit et sans engagement, pour comprendre votre besoin et choisir le bon format.',
+  href = '/contact#demande',
+} = Astro.props;
+---
+<section class="cta on-dark">
+  <div class="wrap grid reveal">
+    <h2>{title}</h2>
+    <div>
+      <p>{text}</p>
+      <a class="btn btn-primary" href={href}>Demander un appel découverte</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta { background: var(--olive); color: var(--creme); padding: 140px 0; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: end; }
+  h2 { font-size: var(--t-1); font-weight: 300; letter-spacing: -.03em; line-height: 1.02; }
+  p { font-size: var(--t-3); line-height: 1.45; max-width: 36ch; margin-bottom: 28px; }
+  .btn-primary { background: var(--creme); color: var(--olive); border-color: var(--creme); }
+  .btn-primary:hover { background: var(--paper); border-color: var(--paper); }
+  @media (max-width: 1020px) {
+    .cta { padding: 96px 0; }
+    .grid { grid-template-columns: minmax(0, 1fr); }
+    p { max-width: none; }
+  }
+  @media (max-width: 640px) {
+    .cta { padding: 72px 0; }
+    .btn { width: 100%; }
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+// Pied de page : signature, navigation, contact et mentions.
+import { SITE, NAV, SOCIAL } from '../config';
+import { getArticles } from '../lib/content';
+import credits from '../assets/found/credits.json';
+
+const hasArticles = (await getArticles()).length > 0;
+const year = new Date().getFullYear();
+const links = [...NAV, ...(hasArticles ? [{ href: '/ressources', label: 'Ressources' }] : [])];
+
+// Crédits des images libres de droits (src/assets/found/credits.json), utilisées sur toutes les pages.
+const list = credits as { title: string; creator?: string; page: string; license: string; licenseUrl: string }[];
+
+---
+<footer class="on-dark">
+  <div class="wrap">
+    <div class="back">
+      <div class="half">
+        <h2>À très vite.</h2>
+        <p>{SITE.name}, par {SITE.owner}. {SITE.role}. Un accompagnement sur mesure pour les étudiants, les professionnels et les équipes.</p>
+        <ul class="nav">
+          {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </div>
+      <div class="half address">
+        <ul>
+          <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+          <li><a href="/contact">Demander un appel découverte</a></li>
+          {SOCIAL.map((s) => <li><a href={s.url} rel="noopener" target="_blank">{s.label}</a></li>)}
+        </ul>
+      </div>
+      <div class="imprint">
+        <p>© {year} {SITE.name} · {SITE.owner} · <a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a></p>
+        {list.length > 0 && (
+          <p class="credits">Images :{' '}
+          {list.map((c, i) => (
+            <>
+              <a href={c.page}>« {c.title.replace(/[ .]+$/, '')} »</a>{c.creator ? `, ${c.creator}` : ''}, <a href={c.licenseUrl}>{c.license === 'public domain' ? 'domaine public' : c.license}</a>{i < list.length - 1 ? ' ; ' : '.'}
+            </>
+          ))}
+          </p>
+        )}
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer { background: var(--anthra); padding: var(--gutter) 0; }
+  .back { position: relative; background: var(--paper); color: var(--anthra); display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 72px clamp(24px, 5vw, 72px) 32px; }
+  h2 { font-size: var(--t-2); margin-bottom: 16px; }
+  .half > p { max-width: 40ch; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  .nav { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 24px; }
+  .nav a { font-size: 15px; font-weight: 600; }
+  a { color: var(--anthra); text-decoration: none; transition: color .2s; }
+  a:hover { color: var(--olive); text-decoration: underline; text-underline-offset: 4px; }
+  .address { position: relative; padding-top: 8px; }
+  .address ul { display: grid; gap: 12px; }
+  .address li a { font-family: var(--serif); font-size: var(--t-3); word-break: break-word; }
+  .imprint { grid-column: 1 / -1; text-align: center; font-size: 16px; color: var(--body); padding-top: 24px; }
+  .imprint p { margin: 0 0 6px; }
+  .credits { max-width: 70ch; margin-inline: auto !important; }
+  .credits a { text-decoration: underline; text-underline-offset: 3px; }
+
+  @media (max-width: 760px) {
+    .back { grid-template-columns: minmax(0, 1fr); gap: 32px; padding: 48px 22px 24px; }
+    .address li a { font-size: 17px; }
+  }
+</style>

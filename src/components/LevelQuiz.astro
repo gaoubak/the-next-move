@@ -1,0 +1,130 @@
+---
+// « Quel niveau pour moi ? » : 3 questions, chaque réponse vaut 0, 1 ou 2 points.
+// 0–2 → IA Essentiels · 3–4 → IA au travail · 5–6 → IA professionnelle
+import { getTrainings } from '../lib/content';
+import { contactHref } from '../lib/contact';
+
+const trainings = await getTrainings();
+const questions = [
+  {
+    q: 'Utilisez-vous déjà un outil d’IA générative ?',
+    a: ['Jamais ou presque', 'De temps en temps', 'Régulièrement'],
+  },
+  {
+    q: 'Dans le travail, l’IA sert aujourd’hui à…',
+    a: ['Rien pour l’instant', 'Rédiger ou résumer ponctuellement', 'Plusieurs tâches au quotidien'],
+  },
+  {
+    q: 'L’objectif principal ?',
+    a: ['Comprendre les bases', 'Gagner du temps sur des tâches concrètes', 'Structurer, automatiser, intégrer aux processus'],
+  },
+];
+const results = trainings.map(({ id, data }) => ({
+  id,
+  title: data.title,
+  summary: data.summary,
+  meta: `Pour : ${data.audience.charAt(0).toLowerCase()}${data.audience.slice(1)}. Prérequis : ${data.prerequisites.charAt(0).toLowerCase()}${data.prerequisites.slice(1)}.`,
+  mail: contactHref(undefined, 'ia'),
+}));
+---
+<section class="quiz-section on-olive on-dark" id="quiz">
+  <div class="wrap grid">
+    <div class="intro reveal">
+      <h2>Quel niveau pour moi ?</h2>
+      <p>Trois questions, trente secondes. La réponse indique la formation par laquelle commencer.</p>
+    </div>
+
+    <form class="quiz reveal" data-results={JSON.stringify(results)}>
+      {questions.map((item, qi) => (
+        <fieldset>
+          <legend>{item.q}</legend>
+          <div class="options">
+            {item.a.map((label, ai) => (
+              <label>
+                <input type="radio" name={`q${qi}`} value={ai} required />
+                <span>{label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      ))}
+      <noscript><p>Le niveau 1 convient aux débutants, le niveau 2 aux usages réguliers, le niveau 3 à l’automatisation.</p></noscript>
+      <div class="result" aria-live="polite" hidden>
+        <p class="label">Votre point de départ</p>
+        <h3></h3>
+        <p class="summary"></p>
+        <p class="meta"></p>
+        <div class="btns">
+          <a class="btn btn-primary see" href="#">Voir la formation</a>
+          <a class="btn btn-ghost ask" href="#">Échanger sur cette formation</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<style>
+  .quiz-section { background: var(--olive); color: var(--creme); padding: 160px 0; }
+  .grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(40px, 6vw, 96px); align-items: start; }
+  .intro { position: sticky; top: calc(var(--header-h) + 32px); }
+  .intro h2 { margin-bottom: 16px; }
+  .intro p { font-size: var(--t-3); line-height: 1.45; max-width: 30ch; }
+  .quiz { background: var(--paper); color: var(--anthra); padding: 64px clamp(24px, 4vw, 56px) 56px; display: grid; gap: 36px; }
+  fieldset { border: 0; margin: 0; padding: 0; }
+  legend { font-family: var(--serif); font-size: var(--t-3); margin-bottom: 14px; padding: 0; }
+  .options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  label { cursor: pointer; position: relative; }
+  input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  label span { display: flex; align-items: center; min-height: 64px; height: 100%; padding: 12px 14px; background: var(--creme-2); font-size: 15px; font-weight: 600; line-height: 1.3; transition: background .2s, color .2s, transform .2s var(--ease); }
+  label:hover span { background: #E2DACC; }
+  label:active span { transform: scale(.97); }
+  input:checked + span { background: var(--anthra); color: var(--creme); }
+  input:focus-visible + span { outline: 2px solid var(--olive); outline-offset: 3px; }
+
+  .result { background: var(--creme-2); padding: 32px; }
+  .result .label { font-weight: 600; color: var(--olive); margin-bottom: 6px; }
+  .result h3 { font-size: var(--t-2); margin-bottom: 10px; }
+  .result .meta { font-weight: 600; margin-bottom: 24px; }
+  .result .btn-ghost { color: var(--olive); border-color: var(--olive); }
+  .result .btn-primary { background: var(--olive); color: var(--creme); border-color: var(--olive); }
+  @media (prefers-reduced-motion: no-preference) {
+    .result:not([hidden]) { animation: pop .6s var(--ease); }
+  }
+  @keyframes pop { from { opacity: 0; transform: translateY(12px) scale(.98); } }
+
+  @media (max-width: 1020px) {
+    .quiz-section { padding: 96px 0; }
+    .grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .intro { position: static; }
+  }
+  @media (max-width: 640px) {
+    .quiz { padding: 48px 20px 40px; }
+    .options { grid-template-columns: minmax(0, 1fr); }
+    label span { min-height: 52px; }
+    .result { padding: 24px 20px; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('.quiz').forEach((form) => {
+    const results = JSON.parse(form.dataset.results!) as { id: string; title: string; summary: string; meta: string; mail: string }[];
+    const box = form.querySelector<HTMLElement>('.result')!;
+    const count = form.querySelectorAll('fieldset').length;
+
+    form.addEventListener('change', () => {
+      const answers = [...new FormData(form).values()].map(Number);
+      if (answers.length < count) return;
+      const score = answers.reduce((a, b) => a + b, 0);
+      const r = results[score <= 2 ? 0 : score <= 4 ? 1 : 2];
+      box.querySelector('h3')!.textContent = r.title;
+      box.querySelector('.summary')!.textContent = r.summary;
+      box.querySelector('.meta')!.textContent = r.meta;
+      box.querySelector<HTMLAnchorElement>('.see')!.href = `#${r.id}`;
+      box.querySelector<HTMLAnchorElement>('.ask')!.href = r.mail;
+      const wasHidden = box.hidden;
+      box.hidden = false;
+      if (wasHidden) box.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
+    });
+    form.addEventListener('submit', (e) => e.preventDefault());
+  });
+</script>

@@ -1,0 +1,226 @@
+---
+// Contact & demande d'appel découverte.
+// Le formulaire est traité par Netlify Forms (data-netlify) : chaque demande arrive dans le tableau de bord Netlify,
+// d'où une notification e-mail peut être envoyée à Tatiana (Site configuration > Forms > Form notifications).
+// ?profil=jeunes|professionnels|entreprises et ?demande=orientation|organisation|ia|autre pré-cochent les choix.
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { SITE, SOCIAL } from '../config';
+import { PROFILES, REQUESTS } from '../lib/contact';
+
+const formats = ['Visioconférence', 'Téléphone'];
+---
+<Base title={`Contact — ${SITE.name}`} description="Demander un appel découverte avec Tatiana Rizk : orientation, organisation et méthodes de travail, intelligence artificielle et formation.">
+  <PageHero
+    crumbs={[{ label: 'Contact' }]}
+    title="Parlons de la suite."
+    lead="Quelques mots sur votre situation suffisent. Je vous réponds par e-mail pour convenir ensemble d’un moment d’échange."
+    photo="tatiana-rizk"
+    alt={`Portrait de ${SITE.owner}`}
+    pos="50% 25%"
+  />
+
+  <section class="contact-section">
+    <div class="wrap grid">
+      <div class="slip">
+        <form class="request" id="demande" name="demande" method="POST" action="/merci" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="demande" />
+          <p class="hp" aria-hidden="true"><label>Ne pas remplir : <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+          <h2>Demander un appel découverte</h2>
+
+          <fieldset>
+            <legend>Vous êtes</legend>
+            <div class="opts">
+              {PROFILES.map((p) => (
+                <label><input type="radio" name="profil" value={p.label} data-key={p.key} required /><span>{p.label}</span></label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Votre demande concerne</legend>
+            <div class="opts">
+              {REQUESTS.map((r) => (
+                <label><input type="radio" name="demande" value={r.label} data-key={r.key} required /><span>{r.label}</span></label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Format préféré</legend>
+            <div class="opts">
+              {formats.map((f, i) => (
+                <label><input type="radio" name="format" value={f} checked={i === 0} required /><span>{f}</span></label>
+              ))}
+            </div>
+          </fieldset>
+
+          <label class="field">
+            <span>Votre besoin en quelques mots <small>(facultatif)</small></span>
+            <textarea name="besoin" rows="4"></textarea>
+          </label>
+
+          <div class="coords">
+            <label class="field">
+              <span>Prénom et nom</span>
+              <input type="text" name="nom" autocomplete="name" required />
+            </label>
+            <label class="field">
+              <span>Adresse e-mail</span>
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label class="field">
+              <span>Téléphone <small class="phone-hint">(facultatif)</small></span>
+              <input type="tel" name="telephone" autocomplete="tel" aria-describedby="phone-note" />
+              <small id="phone-note" class="note">Nécessaire si vous préférez un échange par téléphone.</small>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" type="submit">Demander un appel découverte</button>
+            <p class="privacy">Vos informations servent uniquement à répondre à votre demande. <a href="/confidentialite">Politique de confidentialité</a></p>
+          </div>
+          <p class="error" role="alert" hidden>L’envoi n’a pas abouti. Réessayez dans un instant, ou écrivez-moi directement à <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+        </form>
+
+        <div class="thanks" id="merci" tabindex="-1" hidden>
+          <h2>Merci pour votre message !</h2>
+          <p>Je reviendrai vers vous par e-mail afin de convenir ensemble d’un créneau.</p>
+          <a class="link-arrow" href="/">Retour à l’accueil</a>
+        </div>
+      </div>
+
+      <aside class="side">
+        <h2>Par e-mail</h2>
+        <p class="mail"><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+        <button class="btn btn-ghost copy" type="button" data-email={SITE.email}>Copier l’adresse</button>
+        <p class="status" role="status" aria-live="polite"></p>
+        {SOCIAL.length > 0 && (
+          <>
+            <h2 class="social-title">Me retrouver</h2>
+            <ul class="social">
+              {SOCIAL.map((s) => <li><a href={s.url} target="_blank" rel="noopener">{s.label}</a></li>)}
+            </ul>
+          </>
+        )}
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact-section { padding: 120px 0 160px; }
+  .grid { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: clamp(32px, 5vw, 80px); align-items: start; }
+  .slip { background: var(--paper); padding: clamp(28px, 4vw, 56px); }
+  .request { display: grid; gap: 28px; }
+  .request h2, .thanks h2 { margin-bottom: 0; }
+  .hp { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  fieldset { border: 0; padding: 0; margin: 0; }
+  legend, .field > span { font-weight: 600; margin-bottom: 10px; display: block; padding: 0; }
+  .field small { font-weight: 500; color: var(--muted); }
+  .opts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .opts label { cursor: pointer; position: relative; }
+  .opts input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .opts span { display: inline-flex; align-items: center; min-height: 48px; padding: 0 16px; background: var(--creme-2); font-size: 16px; font-weight: 600; transition: background .2s, color .2s, transform .2s var(--ease); }
+  .opts label:hover span { background: #E2DACC; }
+  .opts label:active span { transform: scale(.97); }
+  .opts input:checked + span { background: var(--anthra); color: var(--creme); }
+  .opts input:focus-visible + span { outline: 2px solid var(--olive); outline-offset: 3px; }
+  .field { display: block; }
+  .field input, textarea { width: 100%; font: 16px/1.5 var(--sans); color: var(--anthra); background: var(--creme); border: 1px solid rgba(41, 40, 36, .3); padding: 12px 14px; min-height: 48px; }
+  textarea { resize: vertical; }
+  .field input:focus, textarea:focus { border-color: var(--olive); outline: 2px solid var(--olive); outline-offset: 0; }
+  .note { display: block; margin-top: 6px; font-size: var(--t-5); color: var(--muted); }
+  .coords { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .coords .field:last-child { grid-column: 1 / -1; max-width: calc(50% - 10px); }
+  .actions { display: grid; gap: 12px; justify-items: start; }
+  .privacy { margin: 0; font-size: var(--t-5); color: var(--muted); }
+  .privacy a, .error a { color: var(--olive); font-weight: 600; text-underline-offset: 3px; }
+  .error { margin: 0; color: #8A3324; font-weight: 600; }
+  .request.sending button { opacity: .6; pointer-events: none; }
+  .thanks p { font-size: var(--t-3); line-height: 1.45; max-width: 36ch; margin: 12px 0 24px; }
+  .thanks:focus { outline: none; }
+
+  .side { background: var(--creme-2); padding: 32px; }
+  .side h2 { font-family: var(--sans); font-size: var(--t-4); font-weight: 600; letter-spacing: 0; margin-bottom: 8px; }
+  .mail { font-family: var(--serif); font-size: var(--t-3); margin-bottom: 14px; }
+  .mail a { color: var(--anthra); word-break: break-all; text-underline-offset: 4px; }
+  .copy { min-height: 44px; padding: 8px 18px; }
+  .status { margin: 8px 0 0; min-height: 1.4em; font-size: var(--t-5); color: var(--olive); }
+  .social-title { margin-top: 24px; }
+  .social { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .social a { font-weight: 600; color: var(--olive); text-underline-offset: 4px; }
+
+  @media (max-width: 1020px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 640px) {
+    .contact-section { padding: 72px 0 96px; }
+    .slip { padding: 28px 20px; }
+    .coords { grid-template-columns: minmax(0, 1fr); }
+    .coords .field:last-child { max-width: none; }
+    .actions .btn { width: 100%; }
+    .side { padding: 24px 20px; }
+  }
+</style>
+
+<script>
+  import { SITE } from '../config';
+
+  const form = document.querySelector<HTMLFormElement>('#demande')!;
+  const thanks = document.querySelector<HTMLElement>('#merci')!;
+  const error = form.querySelector<HTMLElement>('.error')!;
+  const phone = form.querySelector<HTMLInputElement>('input[name="telephone"]')!;
+  const phoneHint = form.querySelector<HTMLElement>('.phone-hint')!;
+
+  // Choix transmis depuis une autre page (ex. /contact?profil=jeunes&demande=ia)
+  const params = new URLSearchParams(location.search);
+  for (const [param, name] of [['profil', 'profil'], ['demande', 'demande']]) {
+    const key = params.get(param);
+    const input = key && form.querySelector<HTMLInputElement>(`input[name="${name}"][data-key="${CSS.escape(key)}"]`);
+    if (input) input.checked = true;
+  }
+
+  // Le téléphone devient obligatoire quand l'échange se fait par téléphone
+  const syncPhone = () => {
+    const byPhone = form.querySelector<HTMLInputElement>('input[name="format"]:checked')?.value === 'Téléphone';
+    phone.required = byPhone;
+    phoneHint.textContent = byPhone ? '(obligatoire pour un appel)' : '(facultatif)';
+  };
+  form.addEventListener('change', syncPhone);
+  syncPhone();
+
+  // Envoi sans quitter la page ; sans JavaScript, le formulaire mène à /merci
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    error.hidden = true;
+    form.classList.add('sending');
+    try {
+      const body = new URLSearchParams(new FormData(form) as unknown as Record<string, string>).toString();
+      const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+      if (!res.ok) throw new Error(String(res.status));
+      form.hidden = true;
+      thanks.hidden = false;
+      thanks.focus();
+      thanks.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    } catch {
+      error.hidden = false;
+    } finally {
+      form.classList.remove('sending');
+    }
+  });
+
+  // Copier l'adresse e-mail
+  document.querySelectorAll<HTMLButtonElement>('.copy').forEach((btn) => {
+    const status = btn.nextElementSibling as HTMLElement;
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.email || SITE.email);
+        status.textContent = 'Adresse copiée.';
+      } catch {
+        status.textContent = 'Copie impossible : sélectionnez l’adresse ci-dessus.';
+      }
+      setTimeout(() => (status.textContent = ''), 3000);
+    });
+  });
+</script>

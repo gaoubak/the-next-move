@@ -1,0 +1,39 @@
+---
+import { SITE } from '../config';
+
+interface Props {
+  items: { label: string; href?: string }[]; // sans « Accueil », ajouté automatiquement
+}
+
+const trail = [{ label: 'Accueil', href: '/' }, ...Astro.props.items];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: trail.map((t, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: t.label,
+    item: new URL(t.href ?? Astro.url.pathname, SITE.url).href,
+  })),
+};
+---
+<nav class="breadcrumb" aria-label="Fil d’Ariane">
+  <ol>
+    {trail.map((t, i) => (
+      <li>
+        {i < trail.length - 1 && t.href
+          ? <a href={t.href}>{t.label}</a>
+          : <span aria-current="page">{t.label}</span>}
+      </li>
+    ))}
+  </ol>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</nav>
+
+<style>
+  ol { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; font-size: var(--t-5); color: var(--muted); }
+  li + li::before { content: "/"; margin-right: 6px; color: var(--sauge); }
+  a { color: var(--muted); text-decoration: none; }
+  a:hover { color: var(--olive); text-decoration: underline; text-underline-offset: 4px; }
+  [aria-current] { color: var(--anthra); font-weight: 500; }
+</style>

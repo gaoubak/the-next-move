@@ -1,0 +1,62 @@
+---
+// Un public et ses trois accompagnements : intitulé, besoin, bénéfice concret, un bouton pour prendre contact.
+// Le bouton pré-coche le profil et le type de demande dans le formulaire.
+import type { CollectionEntry } from 'astro:content';
+import { contactHref, type ProfileKey } from '../lib/contact';
+
+interface Props {
+  offer: CollectionEntry<'offers'>;
+  tone?: boolean; // fond alterné
+}
+const { offer, tone = false } = Astro.props;
+const { id, data } = offer;
+---
+<section class:list={['offer', { tone }]} id={id}>
+  <div class="wrap grid">
+    <div class="intro reveal">
+      <h2>{data.title}</h2>
+      <p class="short">{data.short}</p>
+      <p class="who">Pour : {data.tag.charAt(0).toLowerCase() + data.tag.slice(1)}.</p>
+    </div>
+    <div class="items" data-stagger>
+      {data.items.map((item) => (
+        <article class="item">
+          <h3>{item.title}</h3>
+          <p>{item.need}</p>
+          <p class="benefit"><b>Ce que vous y gagnez :</b> {item.benefit.charAt(0).toLowerCase() + item.benefit.slice(1)}</p>
+          <a class="btn btn-ghost" href={contactHref(id as ProfileKey, item.request)}>Prendre contact</a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .offer { padding: 140px 0; scroll-margin-top: var(--header-h); }
+  .offer.tone { background: var(--creme-2); }
+  .grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+  .intro { position: sticky; top: calc(var(--header-h) + 32px); }
+  h2 { margin-bottom: 16px; }
+  .short { font-size: var(--t-3); line-height: 1.45; max-width: 30ch; }
+  .who { color: var(--muted); margin: 0; }
+  .items { display: grid; gap: 16px; }
+  .item { background: var(--paper); padding: 32px clamp(24px, 3vw, 40px); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 32px; align-items: end; }
+  .tone .item { background: var(--creme); }
+  .item h3 { grid-column: 1 / -1; font-size: var(--t-2); margin-bottom: 4px; }
+  .item p { grid-column: 1; margin: 0; max-width: 52ch; }
+  .benefit { margin-top: 6px !important; }
+  .benefit b { color: var(--olive); }
+  .item .btn { grid-column: 2; grid-row: 2 / span 2; min-height: 48px; padding: 10px 22px; }
+
+  @media (max-width: 1020px) {
+    .offer { padding: 96px 0; }
+    .grid { grid-template-columns: minmax(0, 1fr); }
+    .intro { position: static; }
+  }
+  @media (max-width: 640px) {
+    .offer { padding: 72px 0; }
+    .items { gap: 32px; }
+    .item { grid-template-columns: minmax(0, 1fr); padding: 28px 20px; }
+    .item .btn { grid-column: 1; grid-row: auto; margin-top: 14px; width: 100%; }
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+// N'affiche rien tant qu'aucun témoignage n'est publié dans src/content/testimonials/.
+import { getCollection, render } from 'astro:content';
+
+const entries = (await getCollection('testimonials')).sort((a, b) => a.data.order - b.data.order);
+const items = await Promise.all(entries.map(async (e) => ({ ...e, Content: (await render(e)).Content })));
+---
+{items.length > 0 && (
+  <section id="temoignages">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2>Ils et elles ont fait le pas</h2>
+      </div>
+      <div class="quotes reveal">
+        {items.map(({ data, Content }) => (
+          <figure>
+            <blockquote><Content /></blockquote>
+            <figcaption><b>{data.name}</b>{data.context}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  #temoignages { background: var(--creme-2); }
+  .quotes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  figure { margin: 0; background: var(--creme); border-radius: 10px; padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+  blockquote { margin: 0; font-family: var(--serif); font-size: 20px; line-height: 1.5; }
+  blockquote::before { content: "“"; display: block; font-size: 48px; line-height: .6; color: var(--sauge); margin-bottom: 8px; }
+  blockquote :global(p) { margin: 0; }
+  figcaption { margin-top: auto; font-size: 14px; color: var(--muted); }
+  figcaption b { display: block; color: var(--anthra); font-weight: 600; }
+</style>

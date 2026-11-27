@@ -1,0 +1,22 @@
+---
+// Bande rayée olive / papier : l'unique ornement des cartes du site.
+interface Props { height?: number; class?: string }
+const { height = 56, class: className } = Astro.props;
+---
+<div class:list={['stripe', className]} style={`--h:${height}px`} aria-hidden="true">
+  {Array.from({ length: 64 }).map(() => <i></i>)}
+</div>
+
+<style>
+  .stripe { display: flex; height: var(--h); overflow: hidden; flex: none; min-width: 0; }
+  .stripe i { flex: none; width: calc(var(--h) / 2); height: 100%; }
+  .stripe i:nth-child(odd) { background: var(--olive); }
+  @media (prefers-reduced-motion: no-preference) {
+    .stripe i { animation: bar-in .6s var(--ease) both; }
+    .stripe i:nth-child(4n + 1) { animation-delay: .05s; }
+    .stripe i:nth-child(4n + 2) { animation-delay: .12s; }
+    .stripe i:nth-child(4n + 3) { animation-delay: .19s; }
+    .stripe i:nth-child(4n) { animation-delay: .26s; }
+  }
+  @keyframes bar-in { from { transform: scaleY(0); transform-origin: top; } }
+</style>
