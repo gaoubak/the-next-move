@@ -6,11 +6,11 @@ const W = 1200, H = 630, PHOTO_W = 440;
 const creme = '#F4EFE7';
 
 // Logo (zone utile du PNG fond crème) et portrait recadré à droite
-const logo = await sharp('src/assets/logo/the-next-move-logo-fond-creme.png')
+const logo = await sharp('src/assets/logo/the-next-move-logo-fond-creme.webp')
   .extract({ left: 200, top: 240, width: 2080, height: 420 })
   .resize({ width: 600 })
   .toBuffer();
-const photo = await sharp('src/assets/photos/tatiana-rizk.jpg')
+const photo = await sharp('src/assets/photos/tatiana-rizk.webp')
   .resize(PHOTO_W, H, { fit: 'cover', position: 'top' })
   .toBuffer();
 
