@@ -1,8 +1,7 @@
 // Réglages globaux du site.
 export const SITE = {
   // URL publique (sitemap, balises canoniques, aperçus LinkedIn/WhatsApp).
-  // À remplacer par le nom de domaine professionnel dès qu'il est disponible.
-  url: 'https://polite-klepon-95e35a.netlify.app',
+  url: 'https://the-next-move.be',
   name: 'The Next Move',
   owner: 'Tatiana Rizk',
   role: 'Consultante · Coach · Formatrice',
